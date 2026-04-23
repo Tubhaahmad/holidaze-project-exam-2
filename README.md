@@ -1,3 +1,15 @@
+# Holidaze
+
+An Airbnb-style accommodation booking platform built as a Noroff exam project.
+
+## Deployments
+
+| Branch | Environment | URL                                               |
+| ------ | ----------- | ------------------------------------------------- |
+| `main` | Production  | <https://holidaze-project-exam-2-4b6e.vercel.app> |
+
+| `staging` | Preview | <https://holidaze-project-exam-2-4b6e-git-staging-tubhaahmads-projects.vercel.app> |
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
