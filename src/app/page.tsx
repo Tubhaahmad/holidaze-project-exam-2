@@ -14,7 +14,10 @@ export default function Home() {
           playsInline
           className="absolute inset-0 h-full w-full object-cover"
         >
-          <source src="/hero-video.mp4" type="video/mp4" />
+          <source
+            src="https://www.pexels.com/download/video/4782135/"
+            type="video/mp4"
+          />
         </video>
 
         {/* Dark overlay so text is readable over the video */}
