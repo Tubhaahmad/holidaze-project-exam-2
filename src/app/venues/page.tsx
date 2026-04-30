@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import VenueCard from "@/components/venues/VenueCard";
 import { useVenues } from "@/hooks/useVenues";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useDebounce } from "use-debounce";
 
-export default function VenuesPage() {
+function VenuesPage() {
   const searchParams = useSearchParams();
   //search will track what the user has typed in the search input
   const [search, setSearch] = useState(searchParams.get("search") || "");
@@ -96,5 +96,14 @@ export default function VenuesPage() {
         </div>
       )}
     </div>
+  );
+}
+
+// We wrap VenuesPage in Suspense because useSearchParams() requires it in Next.js
+export default function VenuesPageWrapper() {
+  return (
+    <Suspense>
+      <VenuesPage />
+    </Suspense>
   );
 }
