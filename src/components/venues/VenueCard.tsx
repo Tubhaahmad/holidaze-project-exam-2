@@ -28,7 +28,7 @@ export default function VenueCard({
 }: VenueCardProps) {
   // Use the first image in the media array if it exists.
   // If the venue has no images, fall back to a placeholder.
-  const image = media?.[0]?.url || "/placeholder.jpg";
+  const image = media?.[0]?.url || "https://placehold.co/600x400?text=No+Image";
   const imageAlt = media?.[0]?.alt || name;
 
   // .filter(Boolean) removes any null or undefined values from the array
@@ -43,12 +43,16 @@ export default function VenueCard({
       <div className="group overflow-hidden rounded-xl border border-gray-200 bg-white transition hover:shadow-lg">
         {/* Image container — relative and fill is how Next.js Image works inside a sized div */}
         <div className="relative h-52 w-full overflow-hidden">
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src={image}
             alt={imageAlt}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover transition duration-300 group-hover:scale-105"
+            className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+            onError={(e) => {
+              // If the image fails to load, hide it and show a gray background
+              const target = e.target as HTMLImageElement;
+              target.style.display = "none";
+            }}
           />
         </div>
 
@@ -59,7 +63,7 @@ export default function VenueCard({
           {/* Location — only render this if we have a location string */}
           {locationString && (
             <div className="mb-3 flex items-center gap-1 text-sm text-gray-500">
-              <MapPin className="h-3 w-3 flex-shrink-0" />
+              <MapPin className="h-3 w-3 shrink-0" />
               <span className="truncate">{locationString}</span>
             </div>
           )}
