@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod/v3";
@@ -35,7 +36,15 @@ type RegisterFormData = z.infer<typeof registerSchema>;
 export default function RegisterPage() {
   const router = useRouter();
 
-  const { login: saveToStore } = useAuth();
+  const { isLoggedIn, login: saveToStore } = useAuth();
+
+  // Redirect to profile if user is already logged in
+  // This prevents logged-in users from accessing the register page
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.push("/profile");
+    }
+  }, [isLoggedIn, router]);
 
   //useForm sets up the form with the Zod schema for validation
   //watch lets us read the current value of a field
@@ -62,6 +71,15 @@ export default function RegisterPage() {
         email: data.email,
         password: data.password,
         venueManager: data.venueManager,
+      });
+
+      saveToStore(response.accessToken, {
+        name: response.name,
+        email: response.email,
+        bio: response.bio,
+        avatar: response.avatar,
+        banner: response.banner,
+        venueManager: response.venueManager,
       });
 
       toast.success("Account created! Welcome to Holidaze.");
