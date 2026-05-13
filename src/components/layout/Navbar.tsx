@@ -10,9 +10,21 @@ import {
   SheetTrigger,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { useAuth } from "@/features/auth/store";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const { isLoggedIn, user, logout } = useAuth();
+  const router = useRouter();
+
+  // Handle logout — clears the Zustand store and redirects to home
+  function handleLogout() {
+    logout();
+    toast.success("You have been logged out.");
+    router.push("/");
+  }
 
   return (
     <header className="w-full border-b border-gray-200 bg-white">
@@ -43,14 +55,39 @@ export default function Navbar() {
 
         {/* Desktop auth buttons — hidden on mobile */}
         <div className="hidden items-center gap-3 md:flex">
-          <Link href="/login">
-            <Button variant="ghost" size="sm">
-              Login
-            </Button>
-          </Link>
-          <Link href="/register">
-            <Button size="sm">Register</Button>
-          </Link>
+          {isLoggedIn ? (
+            // Show when logged in
+            <>
+              <span className="text-sm text-gray-600">Hi, {user?.name}</span>
+              {user?.venueManager && (
+                <Link href="/dashboard">
+                  <Button variant="ghost" size="sm">
+                    Dashboard
+                  </Button>
+                </Link>
+              )}
+              <Link href="/profile">
+                <Button variant="ghost" size="sm">
+                  Profile
+                </Button>
+              </Link>
+              <Button size="sm" onClick={handleLogout}>
+                Logout
+              </Button>
+            </>
+          ) : (
+            // Show when logged out
+            <>
+              <Link href="/login">
+                <Button variant="ghost" size="sm">
+                  Login
+                </Button>
+              </Link>
+              <Link href="/register">
+                <Button size="sm">Register</Button>
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile hamburger — only visible on mobile */}
@@ -88,14 +125,42 @@ export default function Navbar() {
 
               {/* Mobile auth buttons */}
               <div className="mt-8 flex flex-col gap-3">
-                <Link href="/login" onClick={() => setOpen(false)}>
-                  <Button variant="outline" className="w-full">
-                    Login
-                  </Button>
-                </Link>
-                <Link href="/register" onClick={() => setOpen(false)}>
-                  <Button className="w-full">Register</Button>
-                </Link>
+                {isLoggedIn ? (
+                  <>
+                    {user?.venueManager && (
+                      <Link href="/dashboard" onClick={() => setOpen(false)}>
+                        <Button variant="outline" className="w-full">
+                          Dashboard
+                        </Button>
+                      </Link>
+                    )}
+                    <Link href="/profile" onClick={() => setOpen(false)}>
+                      <Button variant="outline" className="w-full">
+                        Profile
+                      </Button>
+                    </Link>
+                    <Button
+                      className="w-full"
+                      onClick={() => {
+                        handleLogout();
+                        setOpen(false);
+                      }}
+                    >
+                      Logout
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/login" onClick={() => setOpen(false)}>
+                      <Button variant="outline" className="w-full">
+                        Login
+                      </Button>
+                    </Link>
+                    <Link href="/register" onClick={() => setOpen(false)}>
+                      <Button className="w-full">Register</Button>
+                    </Link>
+                  </>
+                )}
               </div>
             </SheetContent>
           </Sheet>

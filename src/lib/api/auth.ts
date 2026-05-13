@@ -55,3 +55,23 @@ export async function register(data: RegisterData): Promise<AuthResponse> {
 
   return json.data;
 }
+
+//LOGIN
+export async function login(data: LoginData): Promise<AuthResponse> {
+  const response = await fetch(`${BASE_URL}/auth/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Noroff-API-Key": API_KEY!,
+    },
+    body: JSON.stringify(data),
+  });
+
+  const json = await response.json();
+
+  if (!response.ok) {
+    throw new Error(json.errors?.[0]?.message ?? "Login failed");
+  }
+
+  return json.data;
+}

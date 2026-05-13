@@ -38,14 +38,6 @@ export default function RegisterPage() {
 
   const { isLoggedIn, login: saveToStore } = useAuth();
 
-  // Redirect to profile if user is already logged in
-  // This prevents logged-in users from accessing the register page
-  useEffect(() => {
-    if (isLoggedIn) {
-      router.push("/profile");
-    }
-  }, [isLoggedIn, router]);
-
   //useForm sets up the form with the Zod schema for validation
   //watch lets us read the current value of a field
   //setValue lets us update a fields value manually
@@ -63,6 +55,14 @@ export default function RegisterPage() {
   });
 
   const isVenueManager = watch("venueManager");
+
+  // Redirect to profile if user is already logged in
+  // This prevents logged-in users from accessing the register page
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.push("/profile");
+    }
+  }, [isLoggedIn, router]);
 
   async function onSubmit(data: RegisterFormData) {
     try {
