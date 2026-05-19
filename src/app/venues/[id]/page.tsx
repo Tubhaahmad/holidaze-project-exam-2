@@ -229,28 +229,28 @@ export default function VenueDetailPage() {
               <span className="text-gray-500"> / night</span>
             </div>
 
-            {/* Booking calendar, shown to all logged-in users who don't own this venue */}
-            {isLoggedIn && !isOwner ? (
-              <BookingCalendar
-                venueId={venue.id}
-                maxGuests={venue.maxGuests}
-                bookings={venue.bookings ?? []}
-              />
-            ) : !isLoggedIn ? (
-              //visitor - not logged in
-              <div className="text-center">
-                <p className="mb-3 text-sm text-gray-500">
-                  Log in to book this venue
-                </p>
+            {/* Booking calendar, shown to all  */}
+            <BookingCalendar
+              venueId={venue.id}
+              maxGuests={venue.maxGuests}
+              bookings={venue.bookings ?? []}
+              venueName={venue.name}
+              price={venue.price}
+            />
+
+            {!isLoggedIn && (
+              <div className="mt-4 text-center">
                 <Link href="/login">
                   <Button variant="outline" className="w-full">
                     Log in to book
                   </Button>
                 </Link>
               </div>
-            ) : (
-              // owner - cannot book their own venue
-              <p className="text-center text-sm text-gray-500">
+            )}
+
+            {/* Show message if owner */}
+            {isLoggedIn && isOwner && (
+              <p className="mt-4 text-center text-sm text-gray-500">
                 You cannot book your own venue
               </p>
             )}
