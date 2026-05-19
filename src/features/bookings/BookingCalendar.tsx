@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { eachDayOfInterval, isBefore, parseISO, startOfDay } from "date-fns";
 import { useAuth } from "@/features/auth/store";
 import { useRouter } from "next/navigation";
+import { createBooking } from "@/lib/api/bookings";
 
 //types
 interface Booking {
@@ -58,52 +59,19 @@ export default function BookingCalendar({
   // total price is nights multiplied by price per night
   const totalPrice = nights * price;
 
-  // read the token directly from localStorage
-  // more reliable than reading from Zustand store due to hydration timing
-  const getToken = () => {
-    try {
-      const stored = localStorage.getItem("holidaze-auth");
-      if (!stored) return null;
-      const parsed = JSON.parse(stored);
-      return parsed?.state?.accessToken ?? null;
-    } catch {
-      return null;
-    }
-  };
-
   const queryClient = useQueryClient();
 
   // useMutation handles the booking API call
   // gives us isPending, onSuccess and onError for free
   // much cleaner than managing isSubmitting state manually
-  const { mutate: createBooking, isPending } = useMutation({
-    mutationFn: async () => {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/holidaze/bookings`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${getToken()}`,
-            "X-Noroff-API-Key": process.env.NEXT_PUBLIC_NOROFF_API_KEY!,
-          },
-          body: JSON.stringify({
-            dateFrom: checkIn!.toISOString(),
-            dateTo: checkOut!.toISOString(),
-            guests,
-            venueId,
-          }),
-        },
-      );
-
-      const json = await response.json();
-
-      if (!response.ok) {
-        throw new Error(json.errors?.[0]?.message ?? "Booking failed");
-      }
-
-      return json.data;
-    },
+  const { mutate: submitBooking, isPending } = useMutation({
+    mutationFn: () =>
+      createBooking({
+        dateFrom: checkIn!.toISOString(),
+        dateTo: checkOut!.toISOString(),
+        guests,
+        venueId,
+      }),
     onSuccess: () => {
       toast.success("Booking confirmed!");
       // Invalidate the venue cache so the calendar refetches with updated bookings
@@ -131,7 +99,7 @@ export default function BookingCalendar({
     }
 
     // Call the mutation
-    createBooking();
+    submitBooking();
   }
 
   // flatMap expands each booking into individual dates and combines them into one flat array
