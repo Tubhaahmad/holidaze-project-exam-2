@@ -15,6 +15,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import BookingCalendar from "@/features/bookings/BookingCalendar";
 
 export default function VenueDetailPage() {
   const { id } = useParams() as { id: string };
@@ -68,9 +69,6 @@ export default function VenueDetailPage() {
     .join(", ");
 
   const isOwner = user?.name === venue.owner?.name;
-
-  const canBook = isLoggedIn && !isOwner && !user?.venueManager;
-
   return (
     <div className="mx-auto w-full max-w-4xl px-6 py-12">
       {/* Image carousel */}
@@ -231,19 +229,18 @@ export default function VenueDetailPage() {
               <span className="text-gray-500"> / night</span>
             </div>
 
-            {/* Calendar placeholder — will be replaced in CALENDAR-01 */}
-            <div className="mb-4 rounded-lg bg-gray-50 p-4 text-center text-sm text-gray-400">
-              Calendar coming soon
-            </div>
-
-            {/* Booking button — different states based on auth */}
-            {canBook && <Button className="w-full">Book now</Button>}
-
-            {/* Not logged in */}
-            {!isLoggedIn && (
+            {/* Booking calendar, shown to all logged-in users who don't own this venue */}
+            {isLoggedIn && !isOwner ? (
+              <BookingCalendar
+                venueId={venue.id}
+                maxGuests={venue.maxGuests}
+                bookings={venue.bookings ?? []}
+              />
+            ) : !isLoggedIn ? (
+              //visitor - not logged in
               <div className="text-center">
                 <p className="mb-3 text-sm text-gray-500">
-                  You need to be logged in to book this venue
+                  Log in to book this venue
                 </p>
                 <Link href="/login">
                   <Button variant="outline" className="w-full">
@@ -251,19 +248,10 @@ export default function VenueDetailPage() {
                   </Button>
                 </Link>
               </div>
-            )}
-
-            {/* Logged in as the owner */}
-            {isLoggedIn && isOwner && (
+            ) : (
+              // owner - cannot book their own venue
               <p className="text-center text-sm text-gray-500">
                 You cannot book your own venue
-              </p>
-            )}
-
-            {/* Logged in as a venue manager but not the owner */}
-            {isLoggedIn && user?.venueManager && !isOwner && (
-              <p className="text-center text-sm text-gray-500">
-                Venue managers cannot make bookings
               </p>
             )}
           </div>
