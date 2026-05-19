@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -20,6 +21,8 @@ interface BookingCalendarProps {
   venueId: string;
   maxGuests: number;
   bookings: Booking[];
+  venueName: string;
+  price: number;
 }
 
 //booking compontent
@@ -27,9 +30,36 @@ export default function BookingCalendar({
   venueId,
   maxGuests,
   bookings,
+  venueName,
+  price,
 }: BookingCalendarProps) {
   const { isLoggedIn } = useAuth();
 
+  const router = useRouter();
+
+  // checkIn and checkOut track the dates the user has selected
+  const [checkIn, setCheckIn] = useState<Date | undefined>();
+  const [checkOut, setCheckOut] = useState<Date | undefined>();
+
+  //guests tracks how many guests the user wants to bring
+  const [guests, setGuests] = useState(1);
+
+  // calculate number of nights between check-in and check-out
+  // must be after useState declarations so checkIn and checkOut exist
+  const nights =
+    checkIn && checkOut
+      ? Math.abs(
+          Math.round(
+            (checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24),
+          ),
+        )
+      : 0;
+
+  // total price is nights multiplied by price per night
+  const totalPrice = nights * price;
+
+  // read the token directly from localStorage
+  // more reliable than reading from Zustand store due to hydration timing
   const getToken = () => {
     try {
       const stored = localStorage.getItem("holidaze-auth");
@@ -41,17 +71,68 @@ export default function BookingCalendar({
     }
   };
 
-  const router = useRouter();
+  const queryClient = useQueryClient();
 
-  // checkIn and checkOut track the dates the user has selected
-  const [checkIn, setCheckIn] = useState<Date | undefined>();
-  const [checkOut, setCheckOut] = useState<Date | undefined>();
+  // useMutation handles the booking API call
+  // gives us isPending, onSuccess and onError for free
+  // much cleaner than managing isSubmitting state manually
+  const { mutate: createBooking, isPending } = useMutation({
+    mutationFn: async () => {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/holidaze/bookings`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${getToken()}`,
+            "X-Noroff-API-Key": process.env.NEXT_PUBLIC_NOROFF_API_KEY!,
+          },
+          body: JSON.stringify({
+            dateFrom: checkIn!.toISOString(),
+            dateTo: checkOut!.toISOString(),
+            guests,
+            venueId,
+          }),
+        },
+      );
 
-  //guests tracks how many guests the user wants to bring
-  const [guests, setGuests] = useState(1);
+      const json = await response.json();
 
-  //isSubmitting tracks whether the booking request is in progress
-  const [isSubmitting, setIsSubmitting] = useState(false);
+      if (!response.ok) {
+        throw new Error(json.errors?.[0]?.message ?? "Booking failed");
+      }
+
+      return json.data;
+    },
+    onSuccess: () => {
+      toast.success("Booking confirmed!");
+      // Invalidate the venue cache so the calendar refetches with updated bookings
+      queryClient.invalidateQueries({ queryKey: ["venue", venueId] });
+      setCheckIn(undefined);
+      setCheckOut(undefined);
+      router.push("/profile");
+    },
+    onError: (error) => {
+      const message =
+        error instanceof Error ? error.message : "Something went wrong";
+      toast.error(message);
+    },
+  });
+
+  function handleBooking() {
+    if (!checkIn || !checkOut) {
+      toast.error("Please select check-in and check-out dates");
+      return;
+    }
+
+    if (guests < 1 || guests > maxGuests) {
+      toast.error(`Guests must be between 1 and ${maxGuests}`);
+      return;
+    }
+
+    // Call the mutation
+    createBooking();
+  }
 
   // flatMap expands each booking into individual dates and combines them into one flat array
   //[{dateFrom: Jan5, dateTo: Jan7}, {dateFrom: Jan10, dateTo: Jan11}]
@@ -103,57 +184,6 @@ export default function BookingCalendar({
     setCheckOut(date);
   }
 
-  async function handleBooking() {
-    if (!checkIn || !checkOut) {
-      toast.error("Please select check-in and check-out dates");
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/holidaze/bookings`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            // The booking endpoint requires authentication
-            Authorization: `Bearer ${getToken()}`,
-            "X-Noroff-API-Key": process.env.NEXT_PUBLIC_NOROFF_API_KEY!,
-          },
-          body: JSON.stringify({
-            dateFrom: checkIn.toISOString(),
-            dateTo: checkOut.toISOString(),
-            guests,
-            venueId,
-          }),
-        },
-      );
-
-      const json = await response.json();
-
-      if (!response.ok) {
-        throw new Error(json.errors?.[0]?.message ?? "Booking failed");
-      }
-
-      toast.success("Booking confirmed!");
-
-      //reset the selected dates after a successful booking
-      setCheckIn(undefined);
-      setCheckOut(undefined);
-
-      //redirect to profile to see upcoming bookings
-      router.push("/profile");
-    } catch (error) {
-      const message =
-        error instanceof Error ? error.message : "Something went wrong";
-      toast.error(message);
-    } finally {
-      setIsSubmitting(false);
-    }
-  }
-
   return (
     <div>
       {/* Calendar */}
@@ -198,6 +228,39 @@ export default function BookingCalendar({
         </div>
       </div>
 
+      {/* Booking summary — only shown when both dates are selected */}
+      {checkIn && checkOut && (
+        <div className="mt-4 rounded-lg border border-gray-200 p-4 text-sm">
+          <h3 className="mb-3 font-semibold text-gray-900">Booking summary</h3>
+          <div className="space-y-2 text-gray-600">
+            <div className="flex justify-between">
+              <span>Venue</span>
+              <span className="font-medium text-gray-900">{venueName}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Check-in</span>
+              <span className="font-medium text-gray-900">
+                {checkIn.toLocaleDateString()}
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span>Check-out</span>
+              <span className="font-medium text-gray-900">
+                {checkOut.toLocaleDateString()}
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span>Nights</span>
+              <span className="font-medium text-gray-900">{nights}</span>
+            </div>
+            <div className="flex justify-between border-t border-gray-200 pt-2">
+              <span className="font-semibold text-gray-900">Total</span>
+              <span className="font-semibold text-gray-900">${totalPrice}</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Guest count input */}
       <div className="mt-4">
         <label className="mb-1 block text-sm font-medium text-gray-700">
@@ -214,20 +277,15 @@ export default function BookingCalendar({
         <p className="mt-1 text-xs text-gray-400">Maximum {maxGuests} guests</p>
       </div>
 
-      {/* Book Now button */}
-      {isLoggedIn ? (
+      {/* Book Now button - only shown to logged-in users */}
+      {isLoggedIn && (
         <Button
           className="mt-4 w-full"
           onClick={handleBooking}
-          disabled={!checkIn || !checkOut || isSubmitting}
+          disabled={!checkIn || !checkOut || isPending}
         >
-          {isSubmitting ? "Booking..." : "Book Now"}
+          {isPending ? "Booking..." : "Book Now"}
         </Button>
-      ) : (
-        //show this if the user is not logged in
-        <p className="mt-4 text-center text-sm text-gray-500">
-          Please log in to book this venue
-        </p>
       )}
     </div>
   );
