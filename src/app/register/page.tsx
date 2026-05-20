@@ -8,7 +8,7 @@ import { z } from "zod/v3";
 import { toast } from "sonner";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { register } from "@/lib/api/auth";
+import { register, login } from "@/lib/api/auth";
 import { useAuth } from "@/features/auth/store";
 
 // Validation schema
@@ -66,20 +66,27 @@ export default function RegisterPage() {
 
   async function onSubmit(data: RegisterFormData) {
     try {
-      const response = await register({
+      // register the user
+      await register({
         name: data.name,
         email: data.email,
         password: data.password,
         venueManager: data.venueManager,
       });
 
-      saveToStore(response.accessToken, {
-        name: response.name,
-        email: response.email,
-        bio: response.bio,
-        avatar: response.avatar,
-        banner: response.banner,
-        venueManager: response.venueManager,
+      const loginResponse = await login({
+        email: data.email,
+        password: data.password,
+      });
+
+      // save the token and user profile to the Zustand store
+      saveToStore(loginResponse.accessToken, {
+        name: loginResponse.name,
+        email: loginResponse.email,
+        bio: loginResponse.bio,
+        avatar: loginResponse.avatar,
+        banner: loginResponse.banner,
+        venueManager: loginResponse.venueManager,
       });
 
       toast.success("Account created! Welcome to Holidaze.");
