@@ -58,7 +58,6 @@ export default function Navbar() {
           {isLoggedIn ? (
             // Show when logged in
             <>
-              <span className="text-sm text-gray-600">Hi, {user?.name}</span>
               {user?.venueManager && (
                 <Link href="/dashboard">
                   <Button variant="ghost" size="sm">
@@ -66,11 +65,20 @@ export default function Navbar() {
                   </Button>
                 </Link>
               )}
+              {/* Avatar links to profile */}
               <Link href="/profile">
-                <Button variant="ghost" size="sm">
-                  Profile
-                </Button>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={user?.avatar?.url || "https://placehold.co/32x32?text=?"}
+                  alt={user?.name || "Avatar"}
+                  className="h-8 w-8 rounded-full object-cover ring-2 ring-gray-200 hover:ring-gray-900 transition"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = "https://placehold.co/32x32?text=?";
+                  }}
+                />
               </Link>
+
               <Button size="sm" onClick={handleLogout}>
                 Logout
               </Button>
@@ -127,6 +135,25 @@ export default function Navbar() {
               <div className="mt-8 flex flex-col gap-3">
                 {isLoggedIn ? (
                   <>
+                    {/* Mobile avatar + name */}
+                    <div className="flex items-center gap-2 pb-2">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={
+                          user?.avatar?.url ||
+                          "https://placehold.co/32x32?text=?"
+                        }
+                        alt={user?.name || "Avatar"}
+                        className="h-8 w-8 rounded-full object-cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = "https://placehold.co/32x32?text=?";
+                        }}
+                      />
+                      <span className="text-sm text-gray-600">
+                        {user?.name}
+                      </span>
+                    </div>
                     {user?.venueManager && (
                       <Link href="/dashboard" onClick={() => setOpen(false)}>
                         <Button variant="outline" className="w-full">

@@ -58,7 +58,7 @@ export async function register(data: RegisterData): Promise<AuthResponse> {
 
 //LOGIN
 export async function login(data: LoginData): Promise<AuthResponse> {
-  const response = await fetch(`${BASE_URL}/auth/login`, {
+  const response = await fetch(`${BASE_URL}/auth/login?_holidaze=true`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
