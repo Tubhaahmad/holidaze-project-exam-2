@@ -17,11 +17,8 @@ export function useManagerVenues() {
     queryFn: async () => {
       if (!user?.name) throw new Error("Not logged in");
 
-      //getVenuesByProfile returns a Profile object with venues array
-      const profile = await getVenuesByProfile(user.name);
-
       //return the venues array from the profile
-      return profile.venues ?? [];
+      return getVenuesByProfile(user.name);
     },
 
     // only run the query if the user is logged in

@@ -27,3 +27,35 @@ export async function getVenue(id: string): Promise<Venue> {
 
   return response.data;
 }
+
+// Create a venue
+// used by the create venue form on /dashboard/venues/new
+
+export interface CreateVenueData {
+  name: string;
+  description: string;
+  price: number;
+  maxGuests: number;
+  media?: { url: string; alt: string }[];
+  meta?: {
+    wifi: boolean;
+    parking: boolean;
+    breakfast: boolean;
+    pets: boolean;
+  };
+  location?: {
+    address?: string;
+    city?: string;
+    country?: string;
+    continent?: string;
+  };
+}
+
+export async function createVenue(data: CreateVenueData): Promise<Venue> {
+  const response = await fetcher<ApiResponse<Venue>>("/holidaze/venues", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+
+  return response.data;
+}
