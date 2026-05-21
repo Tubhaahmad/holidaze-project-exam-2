@@ -1,5 +1,5 @@
 import { fetcher } from "./client";
-import { ApiResponse, Profile } from "@/types/api";
+import { ApiResponse, Profile, Venue } from "@/types/api";
 
 //GET PROFILE BY NAME
 //Used by the profile page to fetch the logged-in user's profile data
@@ -41,8 +41,8 @@ export async function updateAvatar(
 
 //Get venues by profile
 // Used by the manager dashboard to fetch all venues owned by the logged-in manager
-export async function getVenuesByProfile(name: string): Promise<Profile> {
-  const response = await fetcher<ApiResponse<Profile>>(
+export async function getVenuesByProfile(name: string): Promise<Venue[]> {
+  const response = await fetcher<ApiResponse<Venue[]>>(
     `/holidaze/profiles/${name}/venues`,
     {
       params: {
