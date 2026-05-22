@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { MapPin, Star, Users } from "lucide-react";
 
 // This describes the shape of the data this component expects to receive.
@@ -40,9 +39,9 @@ export default function VenueCard({
   return (
     // Wrapping the entire card in a Link so the whole thing is clickable
     <Link href={`/venues/${id}`}>
-      <div className="group overflow-hidden rounded-xl border border-gray-200 bg-white transition hover:shadow-lg">
-        {/* Image container — relative and fill is how Next.js Image works inside a sized div */}
-        <div className="relative h-52 w-full overflow-hidden">
+      <div className="group overflow-hidden rounded-xl border border-gray-200 bg-white transition hover:shadow-md">
+        {/* Image container */}
+        <div className="relative h-48 w-full overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={image}
@@ -54,6 +53,12 @@ export default function VenueCard({
               target.style.display = "none";
             }}
           />
+
+          {/* Rating badge — floating on top of the image */}
+          <div className="absolute top-3 right-3 flex items-center gap-1 rounded-full bg-white/90 backdrop-blur-sm px-2 py-1 text-xs font-semibold text-gray-900">
+            <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+            <span>{rating.toFixed(1)}</span>
+          </div>
         </div>
 
         <div className="p-4">
@@ -68,26 +73,17 @@ export default function VenueCard({
             </div>
           )}
 
-          {/* Bottom row: price on the left, rating and guests on the right */}
+          {/* Bottom row: price on the left, guests on the right */}
           <div className="flex items-center justify-between">
             <span className="font-semibold text-gray-900">
               ${price}{" "}
               <span className="text-sm font-normal text-gray-500">/ night</span>
             </span>
 
-            <div className="flex items-center gap-3 text-sm text-gray-500">
-              {/* Star rating */}
-              <div className="flex items-center gap-1">
-                <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                {/* toFixed(1) formats the number to 1 decimal place e.g. 4.5 */}
-                <span>{rating.toFixed(1)}</span>
-              </div>
-
+            <div className="flex items-center gap-1 text-sm text-gray-500">
               {/* Max guests */}
-              <div className="flex items-center gap-1">
-                <Users className="h-3 w-3" />
-                <span>{maxGuests}</span>
-              </div>
+              <Users className="h-3 w-3" />
+              <span>{maxGuests} guests</span>
             </div>
           </div>
         </div>

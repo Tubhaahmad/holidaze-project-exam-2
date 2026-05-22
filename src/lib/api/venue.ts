@@ -59,3 +59,39 @@ export async function createVenue(data: CreateVenueData): Promise<Venue> {
 
   return response.data;
 }
+
+//update venue
+//used by the edit venue page
+export async function updateVenue(
+  id: string,
+  data: CreateVenueData,
+): Promise<Venue> {
+  const response = await fetcher<ApiResponse<Venue>>(`/holidaze/venues/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(data),
+  });
+
+  return response.data;
+}
+
+//delete venue
+export async function deleteVenue(id: string): Promise<void> {
+  await fetcher<void>(`/holidaze/venues/${id}`, {
+    method: "DELETE",
+  });
+}
+
+//get bookings for a venue
+// used by the manager bookings view
+//returns all bookings for a specific venue including customer info
+
+export async function getVenueBookings(id: string): Promise<Venue> {
+  const response = await fetcher<ApiResponse<Venue>>(`/holidaze/venues/${id}`, {
+    params: {
+      _bookings: true,
+      _customer: true,
+    },
+  });
+
+  return response.data;
+}
