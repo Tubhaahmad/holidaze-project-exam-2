@@ -87,27 +87,32 @@ export default function DashboardPage() {
               key={venue.id}
               className="overflow-hidden rounded-xl border border-gray-200 bg-white"
             >
-              <div className="relative h-48 w-full overflow-hidden">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={
-                    venue.media?.[0]?.url ||
-                    "https://placehold.co/400x200?text=No+Image"
-                  }
-                  alt={venue.media?.[0]?.alt || venue.name}
-                  className="h-full w-full object-cover"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = "https://placehold.co/400x200?text=No+Image";
-                  }}
-                />
-              </div>
+              {/* img clicking goes to venue detail page */}
+              <Link href={`/venues/${venue.id}`}>
+                <div className="relative h-48 w-full overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={
+                      venue.media?.[0]?.url ||
+                      "https://placehold.co/400x200?text=No+Image"
+                    }
+                    alt={venue.media?.[0]?.alt || venue.name}
+                    className="h-full w-full object-cover transition hover:opacity-90"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "https://placehold.co/400x200?text=No+Image";
+                    }}
+                  />
+                </div>
+              </Link>
 
               {/*venue details */}
               <div className="p-4">
-                <h3 className="mb-1 truncate font-semibold text-gray-900">
-                  {venue.name}
-                </h3>
+                <Link href={`/venues/${venue.id}`}>
+                  <h3 className="mb-1 truncate font-semibold text-gray-900 hover:underline">
+                    {venue.name}
+                  </h3>
+                </Link>
 
                 {/*stats row */}
                 <div className="mb-4 flex flex-wrap gap-3 text-sm text-gray-500">

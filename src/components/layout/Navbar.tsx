@@ -19,7 +19,6 @@ export default function Navbar() {
   const { isLoggedIn, user, logout } = useAuth();
   const router = useRouter();
 
-  // Handle logout — clears the Zustand store and redirects to home
   function handleLogout() {
     logout();
     toast.success("You have been logged out.");
@@ -27,12 +26,12 @@ export default function Navbar() {
   }
 
   return (
-    <header className="w-full border-b border-gray-200 bg-white">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+    <header className="fixed top-0 left-0 right-0 z-50 px-4 pt-4">
+      <div className="mx-auto flex max-w-7xl items-center justify-between rounded-2xl bg-white/80 backdrop-blur-lg border border-white/40 shadow-lg px-6 py-3">
         {/* Logo */}
         <Link
           href="/"
-          className="text-xl font-bold tracking-tight text-gray-900"
+          className="text-xl font-semibold tracking-tight text-gray-900"
         >
           Holidaze
         </Link>
@@ -41,13 +40,13 @@ export default function Navbar() {
         <nav className="hidden items-center gap-8 md:flex">
           <Link
             href="/venues"
-            className="text-sm text-gray-600 transition hover:text-gray-900"
+            className="text-sm font-medium text-gray-500 transition hover:text-coral"
           >
             Venues
           </Link>
           <Link
             href="/about"
-            className="text-sm text-gray-600 transition hover:text-gray-900"
+            className="text-sm font-medium text-gray-500 transition hover:text-coral"
           >
             About Us
           </Link>
@@ -56,11 +55,14 @@ export default function Navbar() {
         {/* Desktop auth buttons — hidden on mobile */}
         <div className="hidden items-center gap-3 md:flex">
           {isLoggedIn ? (
-            // Show when logged in
             <>
               {user?.venueManager && (
                 <Link href="/dashboard">
-                  <Button variant="ghost" size="sm">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-sm font-medium text-gray-500 hover:text-coral"
+                  >
                     Dashboard
                   </Button>
                 </Link>
@@ -71,28 +73,39 @@ export default function Navbar() {
                 <img
                   src={user?.avatar?.url || "https://placehold.co/32x32?text=?"}
                   alt={user?.name || "Avatar"}
-                  className="h-8 w-8 rounded-full object-cover ring-2 ring-gray-200 hover:ring-gray-900 transition"
+                  className="h-8 w-8 rounded-full object-cover ring-2 ring-gray-100 hover:ring-coral transition"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.src = "https://placehold.co/32x32?text=?";
                   }}
                 />
               </Link>
-
-              <Button size="sm" onClick={handleLogout}>
+              <Button
+                size="sm"
+                onClick={handleLogout}
+                className="rounded-full bg-coral hover:bg-coral-hover text-white text-sm font-medium px-5"
+              >
                 Logout
               </Button>
             </>
           ) : (
-            // Show when logged out
             <>
               <Link href="/login">
-                <Button variant="ghost" size="sm">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-sm font-medium text-gray-500 hover:text-coral"
+                >
                   Login
                 </Button>
               </Link>
               <Link href="/register">
-                <Button size="sm">Register</Button>
+                <Button
+                  size="sm"
+                  className="rounded-full bg-coral hover:bg-coral-hover text-white text-sm font-medium px-5"
+                >
+                  Register
+                </Button>
               </Link>
             </>
           )}
@@ -103,13 +116,13 @@ export default function Navbar() {
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
-                <Menu className="h-5 w-5" />
+                <Menu className="h-5 w-5 text-gray-600" />
                 <span className="sr-only">Open menu</span>
               </Button>
             </SheetTrigger>
 
             <SheetContent side="right" className="w-72">
-              <SheetTitle className="text-left text-lg font-bold">
+              <SheetTitle className="text-left text-lg font-semibold text-gray-900">
                 Holidaze
               </SheetTitle>
 
@@ -118,14 +131,14 @@ export default function Navbar() {
                 <Link
                   href="/venues"
                   onClick={() => setOpen(false)}
-                  className="text-base text-gray-600 transition hover:text-gray-900"
+                  className="text-base font-medium text-gray-600 transition hover:text-coral"
                 >
                   Venues
                 </Link>
                 <Link
                   href="/about"
                   onClick={() => setOpen(false)}
-                  className="text-base text-gray-600 transition hover:text-gray-900"
+                  className="text-base font-medium text-gray-600 transition hover:text-coral"
                 >
                   About Us
                 </Link>
@@ -136,7 +149,7 @@ export default function Navbar() {
                 {isLoggedIn ? (
                   <>
                     {/* Mobile avatar + name */}
-                    <div className="flex items-center gap-2 pb-2">
+                    <div className="flex items-center gap-2 pb-3 border-b border-gray-100">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={
@@ -150,7 +163,7 @@ export default function Navbar() {
                           target.src = "https://placehold.co/32x32?text=?";
                         }}
                       />
-                      <span className="text-sm text-gray-600">
+                      <span className="text-sm font-medium text-gray-900">
                         {user?.name}
                       </span>
                     </div>
@@ -167,7 +180,7 @@ export default function Navbar() {
                       </Button>
                     </Link>
                     <Button
-                      className="w-full"
+                      className="w-full rounded-full bg-coral hover:bg-coral-hover text-white"
                       onClick={() => {
                         handleLogout();
                         setOpen(false);
@@ -184,7 +197,9 @@ export default function Navbar() {
                       </Button>
                     </Link>
                     <Link href="/register" onClick={() => setOpen(false)}>
-                      <Button className="w-full">Register</Button>
+                      <Button className="w-full rounded-full bg-coral hover:bg-coral-hover text-white">
+                        Register
+                      </Button>
                     </Link>
                   </>
                 )}

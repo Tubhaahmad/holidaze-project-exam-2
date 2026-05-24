@@ -35,6 +35,7 @@ interface RequestOptions extends RequestInit {
   params?: Record<string, string | boolean>;
 }
 
+// fetcher handles the base URL, auth token and API key automatically.
 export async function fetcher<T>(
   endpoint: string,
   options: RequestOptions = {},
