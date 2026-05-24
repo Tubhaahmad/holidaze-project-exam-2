@@ -85,6 +85,7 @@ export default function HomePage() {
               {/* coral circle search button */}
               <button
                 type="submit"
+                aria-label="Search"
                 className="m-2 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-coral text-white transition hover:bg-coral-hover"
               >
                 <Search className="h-4 w-4" />
@@ -100,7 +101,7 @@ export default function HomePage() {
                   <h2 className="text-xl font-bold text-gray-900 md:text-2xl">
                     Great stays for your next trip
                   </h2>
-                  <p className="mt-1 text-sm text-gray-400">
+                  <p className="mt-1 text-sm text-gray-500">
                     Browse our most loved stays
                   </p>
                 </div>
@@ -146,7 +147,7 @@ export default function HomePage() {
               {activeCategories.length > 0 && (
                 <button
                   onClick={() => setActiveCategories([])}
-                  className="rounded-full border border-gray-200 px-4 py-2 text-sm text-gray-400 hover:text-coral transition"
+                  className="rounded-full border border-gray-200 px-4 py-2 text-sm text-gray-500 hover:text-coral transition"
                 >
                   Clear
                 </button>
@@ -188,7 +189,7 @@ export default function HomePage() {
           {/* empty state */}
           {!isLoading && filteredVenues.length === 0 && (
             <div className="py-20 text-center">
-              <p className="text-gray-400">No venues found in this category.</p>
+              <p className="text-gray-500">No venues found in this category.</p>
             </div>
           )}
 

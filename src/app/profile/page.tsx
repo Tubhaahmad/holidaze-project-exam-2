@@ -26,11 +26,11 @@ export default function ProfilePage() {
 
   return (
     <div className="mx-auto w-full max-w-6xl px-6 py-12">
-      {/* ── Page title ── */}
+      {/* Page title */}
       <h1 className="mb-8 text-3xl font-bold text-gray-900">My Profile</h1>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-        {/* ── Left column ── */}
+        {/*Left column */}
         <div className="flex flex-col gap-6 lg:col-span-1">
           {/* Profile card */}
           <div className="rounded-xl border border-gray-200 bg-white p-6 text-center">
@@ -48,7 +48,7 @@ export default function ProfilePage() {
             <h2 className="mb-1 text-xl font-bold text-gray-900">
               {user.name}
             </h2>
-            <p className="mb-4 text-sm text-gray-400">{user.email}</p>
+            <p className="mb-4 text-sm text-gray-500">{user.email}</p>
 
             {/* Role badge */}
             <span
@@ -97,7 +97,7 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* ── Right column — bookings ── */}
+        {/*Right column — bookings*/}
         <div className="lg:col-span-2">
           <h2 className="mb-6 text-xl font-bold text-gray-900">
             Upcoming Bookings
@@ -124,7 +124,7 @@ export default function ProfilePage() {
 
           {/* Error state */}
           {isError && (
-            <p className="text-gray-400">
+            <p className="text-gray-500">
               Something went wrong loading your bookings.
             </p>
           )}
@@ -132,7 +132,7 @@ export default function ProfilePage() {
           {/* Empty state */}
           {!isLoading && !isError && bookings?.length === 0 && (
             <div className="rounded-xl border border-gray-200 bg-white p-16 text-center">
-              <p className="mb-4 text-gray-400">
+              <p className="mb-4 text-gray-500">
                 You have no upcoming bookings yet.
               </p>
               <Link href="/venues">

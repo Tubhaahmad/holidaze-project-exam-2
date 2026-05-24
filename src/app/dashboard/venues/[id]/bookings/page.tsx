@@ -151,7 +151,7 @@ export default function VenueBookingsPage() {
         </div>
         <div className="rounded-xl border border-gray-200 p-4 text-center">
           <p className="text-2xl font-bold text-gray-900">
-            <span className="text-sm font-normal text-gray-400">$</span>
+            <span className="text-sm font-normal text-gray-500">$</span>
             {totalRevenue}
           </p>
           <p className="text-sm text-gray-500">Total revenue</p>
