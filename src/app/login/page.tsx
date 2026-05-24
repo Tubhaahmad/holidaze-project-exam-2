@@ -73,17 +73,25 @@ export default function LoginPage() {
 
   return (
     <div className="mx-auto w-full max-w-md px-6 py-16">
-      <div className="mb-8 text-center">
-        <h1 className="mb-2 text-3xl font-bold text-gray-900">Welcome back</h1>
-        <p className="text-gray-500">
+      {/* header */}
+      <div className="mb-8">
+        <p className="mb-1 text-sm font-medium text-coral">Welcome back</p>
+        <h1 className="mb-2 text-3xl font-bold text-gray-900">
+          Log in to Holidaze
+        </h1>
+        <p className="text-gray-400">
           Don&apos;t have an account?{" "}
-          <Link href="/register" className="text-gray-900 underline">
+          <Link
+            href="/register"
+            className="font-medium text-coral hover:text-coral-hover transition"
+          >
             Register
           </Link>
         </p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        {/* email */}
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">
             Email
@@ -92,13 +100,14 @@ export default function LoginPage() {
             {...field("email")}
             type="email"
             placeholder="name@stud.noroff.no"
-            className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900"
+            className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-coral"
           />
           {errors.email && (
             <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
           )}
         </div>
 
+        {/* password */}
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">
             Password
@@ -107,7 +116,7 @@ export default function LoginPage() {
             {...field("password")}
             type="password"
             placeholder="Your password"
-            className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900"
+            className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-coral"
           />
           {errors.password && (
             <p className="mt-1 text-sm text-red-500">
@@ -116,7 +125,11 @@ export default function LoginPage() {
           )}
         </div>
 
-        <Button type="submit" className="w-full" disabled={isSubmitting}>
+        <Button
+          type="submit"
+          className="w-full rounded-full bg-coral hover:bg-coral-hover text-white"
+          disabled={isSubmitting}
+        >
           {isSubmitting ? "Logging in..." : "Log in"}
         </Button>
       </form>

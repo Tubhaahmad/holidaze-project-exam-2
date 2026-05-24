@@ -106,9 +106,8 @@ export default function VenueBookingsPage() {
 
   return (
     <div className="mx-auto w-full max-w-4xl px-6 py-12">
-      {/* Page header */}
-      {/* Page header */}
-      <div className="mb-8 flex items-center justify-between">
+      {/* page header */}
+      <div className="mb-8">
         <div className="flex items-center gap-4">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -126,14 +125,18 @@ export default function VenueBookingsPage() {
             <p className="text-sm text-gray-500">${venue.price} / night</p>
           </div>
         </div>
-        <div className="flex gap-2">
+
+        {/* action buttons — below header on all screen sizes */}
+        <div className="mt-4 flex gap-2">
           <Link href={`/dashboard/venues/${id}/edit`}>
             <Button variant="outline" size="sm">
               Edit venue
             </Button>
           </Link>
           <Link href="/dashboard">
-            <Button variant="outline">Back to dashboard</Button>
+            <Button variant="outline" size="sm">
+              Back to dashboard
+            </Button>
           </Link>
         </div>
       </div>
@@ -147,7 +150,10 @@ export default function VenueBookingsPage() {
           <p className="text-sm text-gray-500">Total bookings</p>
         </div>
         <div className="rounded-xl border border-gray-200 p-4 text-center">
-          <p className="text-2xl font-bold text-gray-900">${totalRevenue}</p>
+          <p className="text-2xl font-bold text-gray-900">
+            <span className="text-sm font-normal text-gray-400">$</span>
+            {totalRevenue}
+          </p>
           <p className="text-sm text-gray-500">Total revenue</p>
         </div>
         <div className="rounded-xl border border-gray-200 p-4 text-center">

@@ -200,19 +200,9 @@ export default function EditVenuePage() {
 
   return (
     <div className="mx-auto w-full max-w-2xl px-6 py-12">
-      <div className="mb-8 flex items-center justify-between">
-        <div>
-          <h1 className="mb-1 text-3xl font-bold text-gray-900">Edit venue</h1>
-          <p className="text-gray-500">{venue.name}</p>
-        </div>
-        <Button
-          variant="outline"
-          onClick={handleDelete}
-          disabled={isDeleting}
-          className="border-red-200 text-red-600 hover:bg-red-50"
-        >
-          {isDeleting ? "Deleting..." : "Delete venue"}
-        </Button>
+      <div className="mb-8">
+        <h1 className="mb-1 text-3xl font-bold text-gray-900">Edit venue</h1>
+        <p className="mb-4 text-gray-500">{venue.name}</p>
       </div>
 
       <form
@@ -367,6 +357,7 @@ export default function EditVenuePage() {
           </div>
         </div>
 
+        {/* action buttons */}
         <div className="flex gap-3">
           <Button
             type="button"
@@ -376,8 +367,25 @@ export default function EditVenuePage() {
           >
             Cancel
           </Button>
-          <Button type="submit" className="flex-1" disabled={isUpdating}>
+          <Button
+            type="submit"
+            className="flex-1 bg-coral hover:bg-coral-hover text-white"
+            disabled={isUpdating}
+          >
             {isUpdating ? "Saving..." : "Save changes"}
+          </Button>
+        </div>
+
+        {/* delete venue — at the bottom to avoid accidental clicks */}
+        <div className="border-t border-gray-100 pt-4">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleDelete}
+            disabled={isDeleting}
+            className="w-full border-red-200 text-red-500 hover:bg-red-50 hover:text-red-600"
+          >
+            {isDeleting ? "Deleting..." : "Delete venue"}
           </Button>
         </div>
       </form>
