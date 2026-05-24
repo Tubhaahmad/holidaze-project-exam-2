@@ -79,7 +79,7 @@ export default function LoginPage() {
         <h1 className="mb-2 text-3xl font-bold text-gray-900">
           Log in to Holidaze
         </h1>
-        <p className="text-gray-400">
+        <p className="text-gray-500">
           Don&apos;t have an account?{" "}
           <Link
             href="/register"

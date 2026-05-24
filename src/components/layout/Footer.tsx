@@ -27,7 +27,7 @@ export default function Footer() {
                 <h2 className="mb-2 text-3xl font-bold text-white">
                   Ready to list your venue?
                 </h2>
-                <p className="text-gray-400">
+                <p className="text-gray-500">
                   {isLoggedIn
                     ? "You need a venue manager account to list your property."
                     : "Join thousands of hosts and start earning from your property today."}
@@ -60,10 +60,10 @@ export default function Footer() {
       {/* main footer */}
       <footer className="border-t border-gray-100 bg-white py-8">
         <div className="mx-auto w-full max-w-7xl px-6 flex flex-col items-center justify-between gap-4 sm:flex-row">
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-gray-500">
             © 2026 Holidaze. All rights reserved.
           </p>
-          <div className="flex items-center gap-6 text-sm text-gray-400">
+          <div className="flex items-center gap-6 text-sm text-gray-500">
             <Link href="/venues" className="hover:text-coral transition">
               Venues
             </Link>

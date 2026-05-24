@@ -234,7 +234,7 @@ export default function BookingCalendar({
           onChange={(e) => setGuests(Number(e.target.value))}
           className="w-full rounded-lg border border-gray-200 px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-coral"
         />
-        <p className="mt-1 text-xs text-gray-400">Maximum {maxGuests} guests</p>
+        <p className="mt-1 text-xs text-gray-500">Maximum {maxGuests} guests</p>
       </div>
 
       {/* Book Now button — only shown to logged-in users */}
