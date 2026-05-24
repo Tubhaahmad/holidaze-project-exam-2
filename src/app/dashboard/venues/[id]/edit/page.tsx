@@ -331,7 +331,7 @@ export default function EditVenuePage() {
         <div className="flex flex-col gap-4">
           <h2 className="text-lg font-semibold text-gray-900">
             Location{" "}
-            <span className="text-sm font-normal text-gray-400">
+            <span className="text-sm font-normal text-gray-500">
               (optional)
             </span>
           </h2>

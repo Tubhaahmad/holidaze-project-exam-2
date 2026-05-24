@@ -95,7 +95,7 @@ function VenuesPage() {
           {search ? `Results for "${search}"` : "All Venues"}
         </h1>
         {venues && (
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-gray-500">
             {filteredVenues.length}{" "}
             {filteredVenues.length === 1 ? "venue" : "venues"} found
           </p>
@@ -106,7 +106,7 @@ function VenuesPage() {
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center">
         {/* Search input */}
         <div className="relative flex-1 max-w-lg">
-          <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+          <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
           <input
             type="text"
             value={search}
@@ -158,7 +158,7 @@ function VenuesPage() {
         {activeFilters.length > 0 && (
           <button
             onClick={() => setActiveFilters([])}
-            className="rounded-full border border-gray-200 px-4 py-2 text-sm text-gray-400 hover:text-coral transition"
+            className="rounded-full border border-gray-200 px-4 py-2 text-sm text-gray-500 hover:text-coral transition"
           >
             Clear filters
           </button>

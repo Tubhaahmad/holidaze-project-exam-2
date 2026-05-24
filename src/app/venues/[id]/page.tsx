@@ -122,7 +122,7 @@ export default function VenueDetailPage() {
       ) : (
         // No images fallback
         <div className="mb-8 flex h-96 w-full items-center justify-center rounded-2xl bg-gray-100">
-          <p className="text-gray-400">No images available</p>
+          <p className="text-gray-500">No images available</p>
         </div>
       )}
 
@@ -196,7 +196,7 @@ export default function VenueDetailPage() {
                 !venue.meta.parking &&
                 !venue.meta.breakfast &&
                 !venue.meta.pets && (
-                  <p className="text-gray-400">No amenities listed</p>
+                  <p className="text-gray-500">No amenities listed</p>
                 )}
             </div>
           </div>
@@ -225,7 +225,7 @@ export default function VenueDetailPage() {
                   <p className="font-semibold text-gray-900">
                     {venue.owner.name}
                   </p>
-                  <p className="text-sm text-gray-400">{venue.owner.email}</p>
+                  <p className="text-sm text-gray-500">{venue.owner.email}</p>
                 </div>
               </div>
             </div>
@@ -240,7 +240,7 @@ export default function VenueDetailPage() {
               <span className="text-3xl font-bold text-gray-900">
                 ${venue.price}
               </span>
-              <span className="text-gray-400"> / night</span>
+              <span className="text-gray-500"> / night</span>
             </div>
 
             <BookingCalendar
@@ -253,7 +253,7 @@ export default function VenueDetailPage() {
 
             {!isLoggedIn && (
               <div className="mt-4 text-center">
-                <p className="mb-3 text-sm text-gray-400">
+                <p className="mb-3 text-sm text-gray-500">
                   Log in to book this venue
                 </p>
                 <Link href="/login">
@@ -266,7 +266,7 @@ export default function VenueDetailPage() {
 
             {/* Show message if owner */}
             {isLoggedIn && isOwner && (
-              <p className="mt-4 text-center text-sm text-gray-400">
+              <p className="mt-4 text-center text-sm text-gray-500">
                 You cannot book your own venue
               </p>
             )}

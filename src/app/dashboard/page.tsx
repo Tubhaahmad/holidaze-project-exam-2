@@ -30,7 +30,7 @@ export default function DashboardPage() {
       <div className="mb-10">
         <p className="mb-1 text-sm font-medium text-coral">Manager Dashboard</p>
         <h1 className="mb-1 text-3xl font-bold text-gray-900">My Venues</h1>
-        <p className="mb-4 text-gray-400">
+        <p className="mb-4 text-gray-500">
           Manage your venues and view bookings
         </p>
         <Link href="/dashboard/venues/new">
@@ -46,13 +46,13 @@ export default function DashboardPage() {
         <div className="mb-10 grid grid-cols-3 gap-4">
           <div className="rounded-xl border border-gray-200 bg-white p-4 text-center">
             <p className="text-2xl font-bold text-gray-900">{venues.length}</p>
-            <p className="text-sm text-gray-400">Total venues</p>
+            <p className="text-sm text-gray-500">Total venues</p>
           </div>
           <div className="rounded-xl border border-gray-200 bg-white p-4 text-center">
             <p className="text-2xl font-bold text-gray-900">
               {venues.reduce((sum, v) => sum + (v.bookings?.length ?? 0), 0)}
             </p>
-            <p className="text-sm text-gray-400">Total bookings</p>
+            <p className="text-sm text-gray-500">Total bookings</p>
           </div>
           <div className="rounded-xl border border-gray-200 bg-white p-4 text-center">
             <p className="text-2xl font-bold text-coral">
@@ -60,7 +60,7 @@ export default function DashboardPage() {
               {(venues.reduce((sum, v) => sum + v.price, 0) / venues.length) |
                 0}
             </p>
-            <p className="text-sm text-gray-400">Avg. price / night</p>
+            <p className="text-sm text-gray-500">Avg. price / night</p>
           </div>
         </div>
       )}
@@ -86,7 +86,7 @@ export default function DashboardPage() {
 
       {/* error state */}
       {isError && (
-        <p className="text-gray-400">
+        <p className="text-gray-500">
           Something went wrong loading your venues.
         </p>
       )}
@@ -100,7 +100,7 @@ export default function DashboardPage() {
           <h2 className="mb-2 text-lg font-semibold text-gray-900">
             No venues yet
           </h2>
-          <p className="mb-6 text-gray-400">
+          <p className="mb-6 text-gray-500">
             Create your first venue to start accepting bookings.
           </p>
           <Link href="/dashboard/venues/new">
@@ -147,7 +147,7 @@ export default function DashboardPage() {
                 </Link>
 
                 {/* stats row */}
-                <div className="mb-3 flex flex-wrap gap-3 text-sm text-gray-400">
+                <div className="mb-3 flex flex-wrap gap-3 text-sm text-gray-500">
                   <div className="flex items-center gap-1">
                     <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
                     <span>{venue.rating.toFixed(1)}</span>
@@ -166,7 +166,7 @@ export default function DashboardPage() {
                 {/* price */}
                 <p className="mb-4 text-sm font-semibold text-gray-900">
                   <span className="text-coral">${venue.price}</span>
-                  <span className="font-normal text-gray-400"> / night</span>
+                  <span className="font-normal text-gray-500"> / night</span>
                 </p>
 
                 {/* action buttons */}

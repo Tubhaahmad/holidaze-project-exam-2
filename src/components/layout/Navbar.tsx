@@ -169,7 +169,7 @@ export default function Navbar() {
                         <p className="text-sm font-semibold text-gray-900">
                           {user?.name}
                         </p>
-                        <p className="text-xs text-gray-400">
+                        <p className="text-xs text-gray-500">
                           {user?.venueManager ? "Venue Manager" : "Customer"}
                         </p>
                       </div>

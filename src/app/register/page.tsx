@@ -99,7 +99,7 @@ export default function RegisterPage() {
         <h1 className="mb-2 text-3xl font-bold text-gray-900">
           Create an account
         </h1>
-        <p className="text-gray-400">
+        <p className="text-gray-500">
           Already have an account?{" "}
           <Link
             href="/login"
