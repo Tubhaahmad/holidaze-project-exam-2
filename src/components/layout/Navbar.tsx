@@ -31,7 +31,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link
           href="/"
-          className="text-xl font-semibold tracking-tight text-gray-900"
+          className="text-xl font-semibold tracking-tight text-coral"
         >
           Holidaze
         </Link>
@@ -120,36 +120,38 @@ export default function Navbar() {
                 <span className="sr-only">Open menu</span>
               </Button>
             </SheetTrigger>
-
             <SheetContent side="right" className="w-72">
-              <SheetTitle className="text-left text-lg font-semibold text-gray-900">
+              <SheetTitle className="pt-4 text-center text-lg text-coral font-bold text-2xl">
                 Holidaze
               </SheetTitle>
 
-              {/* Mobile nav links */}
-              <nav className="mt-8 flex flex-col gap-4">
+              {/* mobile nav links */}
+              <nav className="mt-8 flex flex-col items-center gap-1">
                 <Link
                   href="/venues"
                   onClick={() => setOpen(false)}
-                  className="text-base font-medium text-gray-600 transition hover:text-coral"
+                  className="w-full rounded-lg px-3 py-2.5 text-center text-sm font-medium text-gray-600 transition hover:bg-gray-50 hover:text-coral"
                 >
                   Venues
                 </Link>
                 <Link
                   href="/about"
                   onClick={() => setOpen(false)}
-                  className="text-base font-medium text-gray-600 transition hover:text-coral"
+                  className="w-full rounded-lg px-3 py-2.5 text-center text-sm font-medium text-gray-600 transition hover:bg-gray-50 hover:text-coral"
                 >
                   About Us
                 </Link>
               </nav>
 
-              {/* Mobile auth buttons */}
-              <div className="mt-8 flex flex-col gap-3">
+              {/* divider */}
+              <div className="my-6 border-t border-gray-100" />
+
+              {/* mobile auth buttons */}
+              <div className="flex flex-col gap-3 px-4">
                 {isLoggedIn ? (
                   <>
-                    {/* Mobile avatar + name */}
-                    <div className="flex items-center gap-2 pb-3 border-b border-gray-100">
+                    {/* avatar + name card */}
+                    <div className="flex items-center gap-3 rounded-xl border border-gray-100 bg-gray-50 p-3">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={
@@ -157,42 +159,56 @@ export default function Navbar() {
                           "https://placehold.co/32x32?text=?"
                         }
                         alt={user?.name || "Avatar"}
-                        className="h-8 w-8 rounded-full object-cover"
+                        className="h-10 w-10 rounded-full object-cover"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
                           target.src = "https://placehold.co/32x32?text=?";
                         }}
                       />
-                      <span className="text-sm font-medium text-gray-900">
-                        {user?.name}
-                      </span>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-900">
+                          {user?.name}
+                        </p>
+                        <p className="text-xs text-gray-400">
+                          {user?.venueManager ? "Venue Manager" : "Customer"}
+                        </p>
+                      </div>
                     </div>
+
                     {user?.venueManager && (
                       <Link href="/dashboard" onClick={() => setOpen(false)}>
-                        <Button variant="outline" className="w-full">
+                        <Button
+                          variant="outline"
+                          className="w-full rounded-full"
+                        >
                           Dashboard
                         </Button>
                       </Link>
                     )}
+
                     <Link href="/profile" onClick={() => setOpen(false)}>
-                      <Button variant="outline" className="w-full">
+                      <Button variant="outline" className="w-full rounded-full">
                         Profile
                       </Button>
                     </Link>
-                    <Button
-                      className="w-full rounded-full bg-coral hover:bg-coral-hover text-white"
-                      onClick={() => {
-                        handleLogout();
-                        setOpen(false);
-                      }}
-                    >
-                      Logout
-                    </Button>
+
+                    <div className="border-t border-gray-100 pt-3">
+                      <Button
+                        variant="outline"
+                        className="w-full rounded-full border-red-200 text-red-500 hover:bg-red-50 hover:text-red-600"
+                        onClick={() => {
+                          handleLogout();
+                          setOpen(false);
+                        }}
+                      >
+                        Logout
+                      </Button>
+                    </div>
                   </>
                 ) : (
                   <>
                     <Link href="/login" onClick={() => setOpen(false)}>
-                      <Button variant="outline" className="w-full">
+                      <Button variant="outline" className="w-full rounded-full">
                         Login
                       </Button>
                     </Link>

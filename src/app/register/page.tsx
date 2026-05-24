@@ -56,14 +56,6 @@ export default function RegisterPage() {
 
   const isVenueManager = watch("venueManager");
 
-  // Redirect to profile if user is already logged in
-  // This prevents logged-in users from accessing the register page
-  useEffect(() => {
-    if (isLoggedIn) {
-      router.push("/profile");
-    }
-  }, [isLoggedIn, router]);
-
   async function onSubmit(data: RegisterFormData) {
     try {
       // register the user
@@ -101,19 +93,25 @@ export default function RegisterPage() {
 
   return (
     <div className="mx-auto w-full max-w-md px-6 py-16">
-      <div className="mb-8 text-center">
+      {/* header */}
+      <div className="mb-8">
+        <p className="mb-1 text-sm font-medium text-coral">Get started</p>
         <h1 className="mb-2 text-3xl font-bold text-gray-900">
-          Create account
+          Create an account
         </h1>
-        <p className="text-gray-500">
+        <p className="text-gray-400">
           Already have an account?{" "}
-          <Link href="/login" className="text-gray-900 underline">
+          <Link
+            href="/login"
+            className="font-medium text-coral hover:text-coral-hover transition"
+          >
             Log in
           </Link>
         </p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        {/* name */}
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">
             Name
@@ -121,14 +119,15 @@ export default function RegisterPage() {
           <input
             {...field("name")}
             placeholder="Your name"
-            className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900"
+            className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-coral"
           />
-          {/* Show the error message if name validation fails */}
+          {/* show the error message if name validation fails */}
           {errors.name && (
             <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
           )}
         </div>
 
+        {/* email */}
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">
             Email
@@ -137,13 +136,14 @@ export default function RegisterPage() {
             {...field("email")}
             type="email"
             placeholder="name@stud.noroff.no"
-            className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900"
+            className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-coral"
           />
           {errors.email && (
             <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
           )}
         </div>
 
+        {/* password */}
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-700">
             Password
@@ -152,7 +152,7 @@ export default function RegisterPage() {
             {...field("password")}
             type="password"
             placeholder="Minimum 8 characters"
-            className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900"
+            className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-coral"
           />
           {errors.password && (
             <p className="mt-1 text-sm text-red-500">
@@ -161,39 +161,42 @@ export default function RegisterPage() {
           )}
         </div>
 
+        {/* account type toggle */}
         <div>
           <label className="mb-2 block text-sm font-medium text-gray-700">
             Account type
           </label>
-          <div className="flex rounded-lg border border-gray-200 p-1">
+          <div className="flex rounded-xl border border-gray-200 p-1">
             <button
               type="button"
               onClick={() => setValue("venueManager", false)}
-              className={`flex-1 rounded-md py-2 text-sm font-medium transition ${
+              className={`flex-1 rounded-lg py-2.5 text-sm font-medium transition ${
                 !isVenueManager
-                  ? "bg-gray-900 text-white"
+                  ? "bg-coral text-white"
                   : "text-gray-500 hover:text-gray-900"
               }`}
             >
-              {" "}
               Customer
             </button>
             <button
               type="button"
               onClick={() => setValue("venueManager", true)}
-              className={`flex-1 rounded-md py-2 text-sm font-medium transition ${
+              className={`flex-1 rounded-lg py-2.5 text-sm font-medium transition ${
                 isVenueManager
-                  ? "bg-gray-900 text-white"
+                  ? "bg-coral text-white"
                   : "text-gray-500 hover:text-gray-900"
               }`}
             >
-              {" "}
               Venue Manager
             </button>
           </div>
         </div>
 
-        <Button type="submit" className="w-full" disabled={isSubmitting}>
+        <Button
+          type="submit"
+          className="w-full rounded-full bg-coral hover:bg-coral-hover text-white"
+          disabled={isSubmitting}
+        >
           {isSubmitting ? "Creating account..." : "Create account"}
         </Button>
       </form>

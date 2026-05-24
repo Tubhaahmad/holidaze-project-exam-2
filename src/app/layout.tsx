@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import QueryProvider from "@/components/providers/QueryProvider";
 import { Toaster } from "@/components/ui/sonner";
+import Footer from "@/components/layout/Footer";
 
 // Inter is a clean modern sans-serif font used by many top products
 const inter = Inter({
@@ -29,6 +30,7 @@ export default function RootLayout({
         {/* QueryProvider wraps the entire app so every page can use TanStack Query */}
         <QueryProvider>
           <main className="flex-1 pt-20">{children}</main>
+          <Footer />
           <Toaster richColors position="top-right" />
         </QueryProvider>
       </body>

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { updateAvatar } from "@/lib/api/profiles";
 import { useAuth } from "@/features/auth/store";
 
-//zod schema — validates the input is a valid URL
+// zod schema — validates the input is a valid URL
 const avatarSchema = z.string().url("Please enter a valid image URL");
 
 export default function AvatarUpdateForm() {
@@ -16,14 +16,14 @@ export default function AvatarUpdateForm() {
   // url tracks what the user has typed in the input
   const [url, setUrl] = useState(user?.avatar?.url || "");
 
-  //isSubmitting tracks whether the PATCH request is in progress
+  // isSubmitting tracks whether the request is in progress
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  //error shows the Zod validation error if the URL is invalid
+  // error shows the Zod validation error if the URL is invalid
   const [error, setError] = useState<string | null>(null);
 
-  //isValidUrl checks if the current URL passes Zod validation
-  //we use this to show/hide the preview image
+  // isValidUrl checks if the current URL passes Zod validation
+  // we use this to show/hide the preview image
   const isValidUrl = avatarSchema.safeParse(url).success;
 
   async function handleSave() {
@@ -40,10 +40,10 @@ export default function AvatarUpdateForm() {
     try {
       if (!user?.name) throw new Error("Not logged in");
 
-      //send the PATCH request to the Noroff API
+      // send the PUT request to the Noroff API
       await updateAvatar(user.name, url);
 
-      //sync the new avatar URL to the Zustand store
+      // sync the new avatar URL to the Zustand store
       // this updates the navbar avatar immediately without a page refresh
       updateUser({ avatar: { url, alt: user.name } });
 
@@ -64,7 +64,7 @@ export default function AvatarUpdateForm() {
       </h2>
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-        {/* Live image preview */}
+        {/* live image preview */}
         <div className="shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -91,14 +91,14 @@ export default function AvatarUpdateForm() {
               setError(null);
             }}
             placeholder="https://example.com/avatar.jpg"
-            className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900"
+            className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-coral"
           />
 
           {/* Zod validation error */}
           {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
 
           <Button
-            className="mt-3"
+            className="mt-3 rounded-full bg-coral hover:bg-coral-hover text-white"
             onClick={handleSave}
             disabled={isSubmitting || !url}
           >

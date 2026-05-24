@@ -22,16 +22,15 @@ export async function getProfile(name: string): Promise<Profile> {
 export async function updateAvatar(
   name: string,
   avatarUrl: string,
+  bio?: string,
 ): Promise<Profile> {
   const response = await fetcher<ApiResponse<Profile>>(
     `/holidaze/profiles/${name}`,
     {
       method: "PUT",
       body: JSON.stringify({
-        avatar: {
-          url: avatarUrl,
-          alt: name,
-        },
+        avatar: { url: avatarUrl, alt: name },
+        ...(bio !== undefined && { bio }),
       }),
     },
   );

@@ -7,7 +7,7 @@ import { useAuth } from "@/features/auth/store";
 import { useManagerVenues } from "@/hooks/useManagerVenues";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { MapPin, Star, Users, Calendar } from "lucide-react";
+import { Star, Users, Calendar, Plus } from "lucide-react";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -27,20 +27,45 @@ export default function DashboardPage() {
   return (
     <div className="mx-auto w-full max-w-7xl px-6 py-12">
       {/* page header */}
-      <div className="mb-8 flex items-center justify-between">
-        <div>
-          <h1 className="mb-1 text-3xl font-bold text-gray-900">
-            My Dashboard
-          </h1>
-          <p className="text-gray-500">Manage your venues and view bookings</p>
-        </div>
-
+      <div className="mb-10">
+        <p className="mb-1 text-sm font-medium text-coral">Manager Dashboard</p>
+        <h1 className="mb-1 text-3xl font-bold text-gray-900">My Venues</h1>
+        <p className="mb-4 text-gray-400">
+          Manage your venues and view bookings
+        </p>
         <Link href="/dashboard/venues/new">
-          <Button>Create venue</Button>
+          <Button className="flex items-center gap-2 rounded-full bg-coral hover:bg-coral-hover text-white">
+            <Plus className="h-4 w-4" />
+            Create venue
+          </Button>
         </Link>
       </div>
 
-      {/*loading state*/}
+      {/* stats row */}
+      {!isLoading && venues && venues.length > 0 && (
+        <div className="mb-10 grid grid-cols-3 gap-4">
+          <div className="rounded-xl border border-gray-200 bg-white p-4 text-center">
+            <p className="text-2xl font-bold text-gray-900">{venues.length}</p>
+            <p className="text-sm text-gray-400">Total venues</p>
+          </div>
+          <div className="rounded-xl border border-gray-200 bg-white p-4 text-center">
+            <p className="text-2xl font-bold text-gray-900">
+              {venues.reduce((sum, v) => sum + (v.bookings?.length ?? 0), 0)}
+            </p>
+            <p className="text-sm text-gray-400">Total bookings</p>
+          </div>
+          <div className="rounded-xl border border-gray-200 bg-white p-4 text-center">
+            <p className="text-2xl font-bold text-coral">
+              $
+              {(venues.reduce((sum, v) => sum + v.price, 0) / venues.length) |
+                0}
+            </p>
+            <p className="text-sm text-gray-400">Avg. price / night</p>
+          </div>
+        </div>
+      )}
+
+      {/* loading state */}
       {isLoading && (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {[0, 1, 2].map((i) => (
@@ -59,33 +84,40 @@ export default function DashboardPage() {
         </div>
       )}
 
+      {/* error state */}
       {isError && (
-        <p className="text-gray-500">
+        <p className="text-gray-400">
           Something went wrong loading your venues.
         </p>
       )}
 
+      {/* empty state */}
       {!isLoading && !isError && venues?.length === 0 && (
-        <div className="rounded-xl border border-gray-200 p-16 text-center">
+        <div className="rounded-xl border border-gray-200 bg-white p-16 text-center">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-coral/10">
+            <Plus className="h-6 w-6 text-coral" />
+          </div>
           <h2 className="mb-2 text-lg font-semibold text-gray-900">
             No venues yet
           </h2>
-          <p className="mb-6 text-gray-500">
+          <p className="mb-6 text-gray-400">
             Create your first venue to start accepting bookings.
           </p>
           <Link href="/dashboard/venues/new">
-            <Button>Create your first venue</Button>
+            <Button className="rounded-full bg-coral hover:bg-coral-hover text-white">
+              Create your first venue
+            </Button>
           </Link>
         </div>
       )}
 
-      {/* venues grid*/}
+      {/* venues grid */}
       {!isLoading && !isError && venues && venues.length > 0 && (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {venues.map((venue) => (
             <div
               key={venue.id}
-              className="overflow-hidden rounded-xl border border-gray-200 bg-white"
+              className="overflow-hidden rounded-xl border border-gray-200 bg-white transition hover:shadow-md"
             >
               {/* img clicking goes to venue detail page */}
               <Link href={`/venues/${venue.id}`}>
@@ -97,7 +129,7 @@ export default function DashboardPage() {
                       "https://placehold.co/400x200?text=No+Image"
                     }
                     alt={venue.media?.[0]?.alt || venue.name}
-                    className="h-full w-full object-cover transition hover:opacity-90"
+                    className="h-full w-full object-cover transition duration-300 hover:scale-105"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = "https://placehold.co/400x200?text=No+Image";
@@ -106,16 +138,16 @@ export default function DashboardPage() {
                 </div>
               </Link>
 
-              {/*venue details */}
+              {/* venue details */}
               <div className="p-4">
                 <Link href={`/venues/${venue.id}`}>
-                  <h3 className="mb-1 truncate font-semibold text-gray-900 hover:underline">
+                  <h3 className="mb-1 truncate font-semibold text-gray-900 hover:text-coral transition">
                     {venue.name}
                   </h3>
                 </Link>
 
-                {/*stats row */}
-                <div className="mb-4 flex flex-wrap gap-3 text-sm text-gray-500">
+                {/* stats row */}
+                <div className="mb-3 flex flex-wrap gap-3 text-sm text-gray-400">
                   <div className="flex items-center gap-1">
                     <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
                     <span>{venue.rating.toFixed(1)}</span>
@@ -132,8 +164,9 @@ export default function DashboardPage() {
                 </div>
 
                 {/* price */}
-                <p className="mb-4 text-sm font-medium text-gray-900">
-                  ${venue.price} / night
+                <p className="mb-4 text-sm font-semibold text-gray-900">
+                  <span className="text-coral">${venue.price}</span>
+                  <span className="font-normal text-gray-400"> / night</span>
                 </p>
 
                 {/* action buttons */}
@@ -142,7 +175,11 @@ export default function DashboardPage() {
                     href={`/dashboard/venues/${venue.id}/edit`}
                     className="flex-1"
                   >
-                    <Button variant="outline" className="w-full" size="sm">
+                    <Button
+                      variant="outline"
+                      className="w-full rounded-full"
+                      size="sm"
+                    >
                       Edit
                     </Button>
                   </Link>
@@ -150,7 +187,10 @@ export default function DashboardPage() {
                     href={`/dashboard/venues/${venue.id}/bookings`}
                     className="flex-1"
                   >
-                    <Button variant="outline" className="w-full" size="sm">
+                    <Button
+                      className="w-full rounded-full bg-coral hover:bg-coral-hover text-white"
+                      size="sm"
+                    >
                       Bookings
                     </Button>
                   </Link>

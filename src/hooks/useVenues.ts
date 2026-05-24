@@ -8,12 +8,11 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { getVenues } from "@/lib/api/venue";
-import { Venue } from "@/types/api";
 
-export function useVenues(search?: string) {
-  return useQuery<Venue[]>({
-    // queryKey includes search so a new request is made when search changes
-    queryKey: ["venues", search],
-    queryFn: () => getVenues(search),
+export function useVenues(search?: string, page: number = 1) {
+  return useQuery({
+    // queryKey includes search and page so a new request is made when either changes
+    queryKey: ["venues", search, page],
+    queryFn: () => getVenues(search, page),
   });
 }

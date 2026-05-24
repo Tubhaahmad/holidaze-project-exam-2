@@ -153,21 +153,13 @@ export default function BookingCalendar({
   }
 
   return (
-    <div>
+    <div className="w-full">
       {/* Calendar */}
       <Calendar
         mode="single"
-        //pass the selected check-in date to the calendar
         selected={checkIn}
-        // call our handler when a date is clicked
         onSelect={handleDateSelect}
-        // disable all dates that are already booked
-        // also disable all dates in the past
-        disabled={[
-          ...disabledDates,
-          { before: new Date() }, // disables all past dates
-        ]}
-        //highlight the selected range between check-in and check-out
+        disabled={[...disabledDates, { before: new Date() }]}
         modifiers={{
           range:
             checkIn && checkOut
@@ -177,7 +169,7 @@ export default function BookingCalendar({
         modifiersClassNames={{
           range: "bg-gray-100 rounded-none",
         }}
-        className="rounded-lg border border-gray-200"
+        className="w-full rounded-lg border border-gray-200"
       />
 
       {/* Selected dates summary */}
@@ -223,7 +215,7 @@ export default function BookingCalendar({
             </div>
             <div className="flex justify-between border-t border-gray-200 pt-2">
               <span className="font-semibold text-gray-900">Total</span>
-              <span className="font-semibold text-gray-900">${totalPrice}</span>
+              <span className="font-semibold text-coral">${totalPrice}</span>
             </div>
           </div>
         </div>
@@ -240,15 +232,15 @@ export default function BookingCalendar({
           max={maxGuests}
           value={guests}
           onChange={(e) => setGuests(Number(e.target.value))}
-          className="w-full rounded-lg border border-gray-200 px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900"
+          className="w-full rounded-lg border border-gray-200 px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-coral"
         />
         <p className="mt-1 text-xs text-gray-400">Maximum {maxGuests} guests</p>
       </div>
 
-      {/* Book Now button - only shown to logged-in users */}
+      {/* Book Now button — only shown to logged-in users */}
       {isLoggedIn && (
         <Button
-          className="mt-4 w-full"
+          className="mt-4 w-full rounded-full bg-coral hover:bg-coral-hover text-white"
           onClick={handleBooking}
           disabled={!checkIn || !checkOut || isPending}
         >

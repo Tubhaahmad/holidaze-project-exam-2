@@ -1,16 +1,23 @@
 import { fetcher } from "./client";
 import { ApiResponse, Venue } from "@/types/api";
 
-export async function getVenues(search?: string): Promise<Venue[]> {
+export async function getVenues(
+  search?: string,
+  page: number = 1,
+): Promise<{ venues: Venue[]; totalCount: number; pageCount: number }> {
   const endpoint = search
-    ? `/holidaze/venues/search?q=${search}`
+    ? `/holidaze/venues/search?q=${search}&limit=12&page=${page}`
     : `/holidaze/venues`;
 
   const response = await fetcher<ApiResponse<Venue[]>>(endpoint, {
-    params: search ? undefined : { limit: "100" },
+    params: search ? undefined : { limit: "12", page: String(page) },
   });
 
-  return response.data;
+  return {
+    venues: response.data,
+    totalCount: response.meta?.totalCount ?? 0,
+    pageCount: response.meta?.pageCount ?? 1,
+  };
 }
 
 //GET ALL VENUES
