@@ -119,6 +119,7 @@ export default function EditVenuePage() {
     }
   }, [venue, reset]);
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const imageValues = watch("images");
 
   // update venue mutation
@@ -287,7 +288,7 @@ export default function EditVenuePage() {
                   imageValues?.[index] || "https://placehold.co/48x48?text=?"
                 }
                 alt={`Preview ${index + 1}`}
-                className="h-12 w-12 flex-shrink-0 rounded-lg object-cover"
+                className="h-12 w-12 shrink-0 rounded-lg object-cover"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.src = "https://placehold.co/48x48?text=?";
