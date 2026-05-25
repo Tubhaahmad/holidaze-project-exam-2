@@ -3,12 +3,12 @@
 import { Suspense, useState, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import VenueCard from "@/components/venues/VenueCard";
-import { useVenues } from "@/hooks/useVenues";
+import { useVenues, useAllVenues } from "@/hooks/useVenues";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useDebounce } from "use-debounce";
 import { Search, Wifi, Car, Coffee, PawPrint } from "lucide-react";
 
-// Filter chip options
+// filter chip options
 const filters = [
   { label: "WiFi", key: "wifi", icon: Wifi },
   { label: "Parking", key: "parking", icon: Car },
@@ -16,13 +16,16 @@ const filters = [
   { label: "Pets", key: "pets", icon: PawPrint },
 ];
 
-// Sort options
+// sort options
 const sortOptions = [
   { label: "Newest", value: "newest" },
   { label: "Price: Low to High", value: "price-asc" },
   { label: "Price: High to Low", value: "price-desc" },
   { label: "Rating", value: "rating" },
 ];
+
+// how many venues to show per page
+const VENUES_PER_PAGE = 12;
 
 function VenuesPage() {
   const searchParams = useSearchParams();
@@ -42,11 +45,14 @@ function VenuesPage() {
   // page tracks the current pagination page
   const [page, setPage] = useState(1);
 
-  // useVenues fetches the venues from the API via TanStack Query
-  const { data, isLoading, isError } = useVenues(
-    debouncedSearch || undefined,
-    page,
-  );
+  // when filters or sort are active, fetch all venues for accurate filtering
+  // otherwise use paginated fetch
+  const hasFilters = true;
+
+  const paginatedResult = useVenues(debouncedSearch || undefined, page);
+  const allResult = useAllVenues(debouncedSearch || undefined);
+
+  const { data, isLoading, isError } = hasFilters ? allResult : paginatedResult;
 
   const venues = data?.venues ?? [];
   const pageCount = data?.pageCount ?? 1;
@@ -76,7 +82,11 @@ function VenuesPage() {
     }
 
     // Apply sort
-    if (sort === "price-asc") {
+    if (sort === "newest") {
+      result.sort(
+        (a, b) => new Date(b.created).getTime() - new Date(a.created).getTime(),
+      );
+    } else if (sort === "price-asc") {
       result.sort((a, b) => a.price - b.price);
     } else if (sort === "price-desc") {
       result.sort((a, b) => b.price - a.price);
@@ -86,6 +96,16 @@ function VenuesPage() {
 
     return result;
   }, [venues, activeFilters, sort]);
+
+  // slice the filtered venues array to only show the current page
+  const paginatedFilteredVenues = hasFilters
+    ? filteredVenues.slice((page - 1) * VENUES_PER_PAGE, page * VENUES_PER_PAGE)
+    : filteredVenues;
+
+  // Math.ceil rounds up: 20 venues/12 per page = 1.67, rounds up to 2 pages
+  const totalFilteredPages = hasFilters
+    ? Math.ceil(filteredVenues.length / VENUES_PER_PAGE)
+    : pageCount;
 
   return (
     <div className="mx-auto w-full max-w-7xl px-6 py-12">
@@ -154,7 +174,7 @@ function VenuesPage() {
           );
         })}
 
-        {/* Clear filters button — only shown when filters are active */}
+        {/* Clear filters button, only shown when filters are active */}
         {activeFilters.length > 0 && (
           <button
             onClick={() => setActiveFilters([])}
@@ -196,7 +216,7 @@ function VenuesPage() {
       )}
 
       {/* Empty state */}
-      {!isLoading && !isError && filteredVenues.length === 0 && (
+      {!isLoading && !isError && paginatedFilteredVenues.length === 0 && (
         <div className="py-20 text-center">
           <p className="mb-4 text-gray-500">
             {activeFilters.length > 0
@@ -216,16 +236,16 @@ function VenuesPage() {
       )}
 
       {/* Venue grid */}
-      {!isLoading && !isError && filteredVenues.length > 0 && (
+      {!isLoading && !isError && paginatedFilteredVenues.length > 0 && (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filteredVenues.map((venue) => (
+          {paginatedFilteredVenues.map((venue) => (
             <VenueCard key={venue.id} {...venue} />
           ))}
         </div>
       )}
 
-      {/* Pagination controls — only shown when there are multiple pages */}
-      {pageCount > 1 && !isLoading && (
+      {/* Pagination controls, only shown when there are multiple pages */}
+      {totalFilteredPages > 1 && !isLoading && (
         <div className="mt-12 flex items-center justify-center gap-2">
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
@@ -234,14 +254,12 @@ function VenuesPage() {
           >
             Previous
           </button>
-
           <span className="text-sm text-gray-500">
-            Page {page} of {pageCount}
+            Page {page} of {totalFilteredPages}
           </span>
-
           <button
-            onClick={() => setPage((p) => Math.min(pageCount, p + 1))}
-            disabled={page === pageCount}
+            onClick={() => setPage((p) => Math.min(totalFilteredPages, p + 1))}
+            disabled={page === totalFilteredPages}
             className="rounded-full border border-gray-200 px-4 py-2 text-sm text-gray-600 hover:border-coral hover:text-coral disabled:opacity-40 disabled:cursor-not-allowed transition"
           >
             Next

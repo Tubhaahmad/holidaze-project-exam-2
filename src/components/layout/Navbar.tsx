@@ -36,8 +36,8 @@ export default function Navbar() {
           Holidaze
         </Link>
 
-        {/* Desktop nav links — hidden on mobile */}
-        <nav className="hidden items-center gap-8 md:flex">
+        {/* Desktop nav links - hidden on mobile */}
+        <nav className="hidden items-center gap-8 md:flex absolute left-1/2 -translate-x-1/2">
           <Link
             href="/venues"
             className="text-sm font-medium text-gray-500 transition hover:text-coral"

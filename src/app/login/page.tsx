@@ -46,7 +46,6 @@ export default function LoginPage() {
         email: data.email,
         password: data.password,
       });
-      console.log("Login response:", response);
 
       saveToStore(response.accessToken, {
         name: response.name,
