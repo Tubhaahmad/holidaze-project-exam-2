@@ -16,3 +16,11 @@ export function useVenues(search?: string, page: number = 1) {
     queryFn: () => getVenues(search, page),
   });
 }
+
+// fetches all venues at once for client-side filtering
+export function useAllVenues(search?: string) {
+  return useQuery({
+    queryKey: ["venues-all", search],
+    queryFn: () => getVenues(search, 1, true),
+  });
+}

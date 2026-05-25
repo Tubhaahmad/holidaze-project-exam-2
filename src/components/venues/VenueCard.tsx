@@ -63,7 +63,9 @@ export default function VenueCard({
 
         <div className="p-4">
           {/* Venue name — truncate cuts off long names with "..." */}
-          <h3 className="mb-1 truncate font-semibold text-gray-900">{name}</h3>
+          <h3 className="mb-1 truncate font-semibold text-gray-900 group-hover:text-coral transition">
+            {name}
+          </h3>
 
           {/* Location — only render this if we have a location string */}
           {locationString && (
