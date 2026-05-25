@@ -82,7 +82,7 @@ export default function VenueDetailPage() {
           <CarouselContent>
             {venue.media.map((image, index) => (
               <CarouselItem key={index}>
-                <div className="relative h-64 w-full overflow-hidden rounded-2xl sm:h-96 md:h-[480px]">
+                <div className="relative h-64 w-full overflow-hidden rounded-2xl sm:h-96 md:h-120">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={image.url}

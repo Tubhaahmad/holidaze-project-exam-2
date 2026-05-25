@@ -54,6 +54,7 @@ function VenuesPage() {
 
   const { data, isLoading, isError } = hasFilters ? allResult : paginatedResult;
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const venues = data?.venues ?? [];
   const pageCount = data?.pageCount ?? 1;
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -74,6 +74,7 @@ export default function CreateVenuePage() {
   });
 
   //watch image URLs for live preview
+  // eslint-disable-next-line react-hooks/incompatible-library
   const imageValues = watch("images");
 
   // useMutation handles the POST request to create the venue
@@ -221,7 +222,7 @@ export default function CreateVenuePage() {
                   imageValues?.[index] || "https://placehold.co/48x48?text=?"
                 }
                 alt={`Preview ${index + 1}`}
-                className="h-12 w-12 flex-shrink-0 rounded-lg object-cover"
+                className="h-12 w-12 shrink-0 rounded-lg object-cover"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.src = "https://placehold.co/48x48?text=?";
