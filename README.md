@@ -1,21 +1,18 @@
 # Holidaze
 
-An Airbnb-style accommodation booking platform built as a Noroff exam project.
+**Find your perfect stay.**
 
-## Deployments
+Holidaze is a modern accommodation booking platform built as a front-end exam project for Noroff. Customers can browse, search and book unique venues around the world. Venue managers can list and manage their properties and view incoming bookings.
 
-| Branch | Environment | URL                                               |
-| ------ | ----------- | ------------------------------------------------- |
-| `main` | Production  | <https://holidaze-project-exam-2-4b6e.vercel.app> |
+**Live:** [holidaze-project-exam-2-4b6e.vercel.app](https://holidaze-project-exam-2-4b6e.vercel.app)
 
-| `staging` | Preview | <https://holidaze-project-exam-2-4b6e-git-staging-tubhaahmads-projects.vercel.app> |
+**Course:** Front-End Development Year 2  Noroff
 
 ---
 
 ## Features
 
 ### All users (visitors)
-
 - Browse and search all venues
 - Filter venues by amenities (WiFi, Parking, Breakfast, Pets)
 - Sort venues by price or rating
@@ -23,14 +20,12 @@ An Airbnb-style accommodation booking platform built as a Noroff exam project.
 - Register as a customer or venue manager with a stud.noroff.no email
 
 ### Customers
-
 - Log in and out
 - Book a venue by selecting check-in and check-out dates
 - View upcoming bookings on their profile page
 - Update their avatar
 
 ### Venue Managers
-
 - Log in and out
 - Create, edit and delete venues they manage
 - Upload up to 8 images per venue with live preview
@@ -41,53 +36,77 @@ An Airbnb-style accommodation booking platform built as a Noroff exam project.
 
 ## Tech Stack
 
-| Tool            | Version | Purpose                                             |
-| --------------- | ------- | --------------------------------------------------- |
-| Next.js         | 16.2.4  | App Router, TypeScript, server-side rendering       |
-| React           | 19      | UI library                                          |
-| TypeScript      | 5.x     | Type safety (strict mode)                           |
-| Tailwind CSS    | 4.x     | Utility-first styling                               |
-| shadcn/ui       | latest  | Accessible UI components                            |
-| TanStack Query  | 5.x     | Data fetching, caching and mutations                |
-| Zustand         | 5.x     | Auth state management with localStorage persistence |
-| React Hook Form | 7.x     | Form state management                               |
-| Zod             | 3.x     | Schema validation                                   |
-| Noroff API      | v2      | Backend REST API                                    |
-| Vercel          | —       | Hosting, auto-deploys from `main`                   |
+| Tool | Version | Purpose |
+|------|---------|---------|
+| Next.js | 16.2.4 | App Router, TypeScript, server-side rendering |
+| React | 19 | UI library |
+| TypeScript | 5.x | Type safety (strict mode) |
+| Tailwind CSS | 4.x | Utility-first styling |
+| shadcn/ui | latest | Accessible UI components |
+| TanStack Query | 5.x | Data fetching, caching and mutations |
+| Zustand | 5.x | Auth state management with localStorage persistence |
+| React Hook Form | 7.x | Form state management |
+| Zod | 3.x | Schema validation |
+| Noroff API | v2 | Backend REST API |
+| Vercel | — | Hosting, auto-deploys from `main` |
 
 ---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- npm
+
+### Installation
+
+```bash
+git clone https://github.com/Tubhaahmad/holidaze-project-exam-2
+cd holidaze-project-exam-2
+npm install
+```
+
+### Environment Variables
+
+Create a `.env.local` file in the root:
+
+```env
+NEXT_PUBLIC_API_BASE_URL=https://v2.api.noroff.dev
+NEXT_PUBLIC_NOROFF_API_KEY=your_api_key_here
+```
+
+Get your API key from [Noroff API documentation](https://docs.noroff.dev/).
+
+### Run the dev server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build for production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run dev        # Start dev server on localhost:3000
+npm run build      # Production build
+npm run start      # Start production server
+npm run lint       # Run ESLint
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
 ## Project Structure
-
 ```
 
 src/
@@ -137,7 +156,6 @@ src/
 └── types/
 └── api.ts                    # TypeScript interfaces for all API responses
 ```
-
 ---
 
 ## Architecture Notes
@@ -156,12 +174,12 @@ src/
 
 Tested on production deployment (mobile and desktop):
 
-| Category       | Mobile | Desktop |
-| -------------- | ------ | ------- |
-| Performance    | 95     | 96      |
-| Accessibility  | 96     | 96      |
-| Best Practices | 77     | 77      |
-| SEO            | 100    | 100     |
+| Category | Mobile | Desktop |
+|---|---|---|
+| Performance | 95 | 96 |
+| Accessibility | 96 | 96 |
+| Best Practices | 77 | 77 |
+| SEO | 100 | 100 |
 
 > Best Practices score of 77 is caused by third-party cookies set by Vercel's infrastructure, outside of application control.
 
