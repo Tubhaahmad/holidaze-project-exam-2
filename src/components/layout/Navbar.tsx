@@ -26,9 +26,9 @@ export default function Navbar() {
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 px-4 pt-4">
-      <div className="mx-auto flex max-w-7xl items-center justify-between rounded-2xl bg-white/80 backdrop-blur-lg border border-white/40 shadow-lg px-6 py-3">
-        {/* Logo */}
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
+        {/* logo */}
         <Link
           href="/"
           className="text-xl font-semibold tracking-tight text-coral"
@@ -36,8 +36,11 @@ export default function Navbar() {
           Holidaze
         </Link>
 
-        {/* Desktop nav links - hidden on mobile */}
-        <nav className="hidden items-center gap-8 md:flex absolute left-1/2 -translate-x-1/2">
+        {/* desktop nav links - hidden on mobile */}
+        <nav
+          aria-label="Main navigation"
+          className="hidden items-center gap-8 md:flex absolute left-1/2 -translate-x-1/2"
+        >
           <Link
             href="/venues"
             className="text-sm font-medium text-gray-500 transition hover:text-coral"
@@ -52,7 +55,7 @@ export default function Navbar() {
           </Link>
         </nav>
 
-        {/* Desktop auth buttons — hidden on mobile */}
+        {/* desktop auth buttons - hidden on mobile */}
         <div className="hidden items-center gap-3 md:flex">
           {isLoggedIn ? (
             <>
@@ -67,7 +70,7 @@ export default function Navbar() {
                   </Button>
                 </Link>
               )}
-              {/* Avatar links to profile */}
+              {/* avatar links to profile */}
               <Link href="/profile">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -111,7 +114,7 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile hamburger — only visible on mobile */}
+        {/* mobile hamburger — only visible on mobile */}
         <div className="md:hidden">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
@@ -121,12 +124,15 @@ export default function Navbar() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-72">
-              <SheetTitle className="pt-4 text-center text-lg text-coral font-bold text-2xl">
+              <SheetTitle className="pt-4 text-center text-lg text-coral font-bold">
                 Holidaze
               </SheetTitle>
 
               {/* mobile nav links */}
-              <nav className="mt-8 flex flex-col items-center gap-1">
+              <nav
+                aria-label="Mobile navigation"
+                className="mt-8 flex flex-col items-center gap-1"
+              >
                 <Link
                   href="/venues"
                   onClick={() => setOpen(false)}

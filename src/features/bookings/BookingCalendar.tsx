@@ -10,7 +10,7 @@ import { useAuth } from "@/features/auth/store";
 import { useRouter } from "next/navigation";
 import { createBooking } from "@/lib/api/bookings";
 
-//types
+// types
 interface Booking {
   id: string;
   dateFrom: string;
@@ -26,7 +26,7 @@ interface BookingCalendarProps {
   price: number;
 }
 
-//booking compontent
+// booking compontent
 export default function BookingCalendar({
   venueId,
   maxGuests,
@@ -42,7 +42,7 @@ export default function BookingCalendar({
   const [checkIn, setCheckIn] = useState<Date | undefined>();
   const [checkOut, setCheckOut] = useState<Date | undefined>();
 
-  //guests tracks how many guests the user wants to bring
+  // guests tracks how many guests the user wants to bring
   const [guests, setGuests] = useState(1);
 
   // calculate number of nights between check-in and check-out
@@ -74,7 +74,7 @@ export default function BookingCalendar({
       }),
     onSuccess: () => {
       toast.success("Booking confirmed!");
-      // Invalidate the venue cache so the calendar refetches with updated bookings
+      // invalidate the venue cache so the calendar refetches with updated bookings
       queryClient.invalidateQueries({ queryKey: ["venue", venueId] });
       setCheckIn(undefined);
       setCheckOut(undefined);
@@ -98,13 +98,13 @@ export default function BookingCalendar({
       return;
     }
 
-    // Call the mutation
+    // call the mutation
     submitBooking();
   }
 
   // flatMap expands each booking into individual dates and combines them into one flat array
-  //[{dateFrom: Jan5, dateTo: Jan7}, {dateFrom: Jan10, dateTo: Jan11}]
-  //becomes [Jan5, Jan6, Jan7, Jan10, Jan11]
+  // [{dateFrom: Jan5, dateTo: Jan7}, {dateFrom: Jan10, dateTo: Jan11}]
+  // becomes [Jan5, Jan6, Jan7, Jan10, Jan11]
   // eachDayOfInterval from date-fns does this expansion for us.
 
   const disabledDates = bookings.flatMap((booking) => {
@@ -114,12 +114,12 @@ export default function BookingCalendar({
     return eachDayOfInterval({ start, end });
   });
 
-  //handle date selction
+  // handle date selction
   function handleDateSelect(date: Date | undefined) {
     if (!date) return;
 
     if (!checkIn || (checkIn && checkOut)) {
-      // No check-in yet, or both dates already set — start fresh
+      // no check-in yet, or both dates already set - start fresh
       setCheckIn(date);
       setCheckOut(undefined);
       return;
@@ -134,7 +134,7 @@ export default function BookingCalendar({
 
     const selectedRange = eachDayOfInterval({ start: checkIn, end: date });
 
-    //check if the selected range overlaps any existing bookings
+    // check if the selected range overlaps any existing bookings
     const hasOverlap = selectedRange.some((day) =>
       disabledDates.some(
         (disabledDate) =>
@@ -148,31 +148,33 @@ export default function BookingCalendar({
       return;
     }
 
-    //if everything is good, set the check-out date
+    // if everything is good, set the check-out date
     setCheckOut(date);
   }
 
   return (
     <div className="w-full">
-      {/* Calendar */}
-      <Calendar
-        mode="single"
-        selected={checkIn}
-        onSelect={handleDateSelect}
-        disabled={[...disabledDates, { before: new Date() }]}
-        modifiers={{
-          range:
-            checkIn && checkOut
-              ? eachDayOfInterval({ start: checkIn, end: checkOut })
-              : [],
-        }}
-        modifiersClassNames={{
-          range: "bg-gray-100 rounded-none",
-        }}
-        className="w-full rounded-lg border border-gray-200"
-      />
+      {/* calendar */}
+      <div className="overflow-hidden rounded-lg border border-gray-200">
+        <Calendar
+          mode="single"
+          selected={checkIn}
+          onSelect={handleDateSelect}
+          disabled={[...disabledDates, { before: new Date() }]}
+          modifiers={{
+            range:
+              checkIn && checkOut
+                ? eachDayOfInterval({ start: checkIn, end: checkOut })
+                : [],
+          }}
+          modifiersClassNames={{
+            range: "bg-gray-100 rounded-none",
+          }}
+          className="w-full"
+        />
+      </div>
 
-      {/* Selected dates summary */}
+      {/* selected dates summary */}
       <div className="mt-4 space-y-2 text-sm text-gray-600">
         <div className="flex justify-between">
           <span>Check-in:</span>
@@ -188,7 +190,7 @@ export default function BookingCalendar({
         </div>
       </div>
 
-      {/* Booking summary — only shown when both dates are selected */}
+      {/* booking summary — only shown when both dates are selected */}
       {checkIn && checkOut && (
         <div className="mt-4 rounded-lg border border-gray-200 p-4 text-sm">
           <h3 className="mb-3 font-semibold text-gray-900">Booking summary</h3>
@@ -221,7 +223,7 @@ export default function BookingCalendar({
         </div>
       )}
 
-      {/* Guest count input */}
+      {/* guest count input */}
       <div className="mt-4">
         <label className="mb-1 block text-sm font-medium text-gray-700">
           Guests
@@ -237,7 +239,7 @@ export default function BookingCalendar({
         <p className="mt-1 text-xs text-gray-500">Maximum {maxGuests} guests</p>
       </div>
 
-      {/* Book Now button — only shown to logged-in users */}
+      {/* book Now button — only shown to logged-in users */}
       {isLoggedIn && (
         <Button
           className="mt-4 w-full rounded-full bg-coral hover:bg-coral-hover text-white"

@@ -1,8 +1,8 @@
-//custom hook that fetches a single venue by its ID.
-//we pass _owner=true and _bookings=true in the API call so the response
-//also includes the venue owner's profile and all existing bookings.
+// custom hook that fetches a single venue by its ID.
+// we pass _owner=true and _bookings=true in the API call so the response
+// also includes the venue owner's profile and all existing bookings.
 
-//we need bookings to show which dates are already taken on the calendar.
+// we need bookings to show which dates are already taken on the calendar.
 // we need the owner to show host information on the venue detail page.
 
 // the actual API call lives in src/lib/api/venue.ts — this hook just connects TanStack Query to that function.

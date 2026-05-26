@@ -27,9 +27,9 @@ export async function getVenues(
   };
 }
 
-//GET SINGLE VENUE
-//used by the venue detail page (/venues/[id])
-//requests owner and bookings data alongside the venue
+// GET SINGLE VENUE
+// used by the venue detail page (/venues/[id])
+// requests owner and bookings data alongside the venue
 export async function getVenue(id: string): Promise<Venue> {
   const response = await fetcher<ApiResponse<Venue>>(`/holidaze/venues/${id}`, {
     params: {

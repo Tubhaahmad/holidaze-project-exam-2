@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { MapPin, Star, Users } from "lucide-react";
 
-// This describes the shape of the data this component expects to receive.
-// We only include the fields we actually use in this card.
+// this describes the shape of the data this component expects to receive.
+// we only include the fields we actually use in this card.
 interface VenueCardProps {
   id: string;
   name: string;
@@ -25,8 +25,8 @@ export default function VenueCard({
   rating,
   location,
 }: VenueCardProps) {
-  // Use the first image in the media array if it exists.
-  // If the venue has no images, fall back to a placeholder.
+  // use the first image in the media array if it exists.
+  // if the venue has no images, fall back to a placeholder.
   const image = media?.[0]?.url || "https://placehold.co/600x400?text=No+Image";
   const imageAlt = media?.[0]?.alt || name;
 
@@ -37,10 +37,10 @@ export default function VenueCard({
     .join(", ");
 
   return (
-    // Wrapping the entire card in a Link so the whole thing is clickable
+    // wrapping the entire card in a Link so the whole thing is clickable
     <Link href={`/venues/${id}`}>
       <div className="group overflow-hidden rounded-xl border border-gray-200 bg-white transition hover:shadow-md">
-        {/* Image container */}
+        {/* image container */}
         <div className="relative h-48 w-full overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -48,13 +48,13 @@ export default function VenueCard({
             alt={imageAlt}
             className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
             onError={(e) => {
-              // If the image fails to load, hide it and show a gray background
+              // if the image fails to load, hide it and show a gray background
               const target = e.target as HTMLImageElement;
               target.style.display = "none";
             }}
           />
 
-          {/* Rating badge — floating on top of the image */}
+          {/* rating badge — floating on top of the image */}
           <div className="absolute top-3 right-3 flex items-center gap-1 rounded-full bg-white/90 backdrop-blur-sm px-2 py-1 text-xs font-semibold text-gray-900">
             <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
             <span>{rating.toFixed(1)}</span>
@@ -62,12 +62,12 @@ export default function VenueCard({
         </div>
 
         <div className="p-4">
-          {/* Venue name — truncate cuts off long names with "..." */}
+          {/* venue name - truncate cuts off long names with "..." */}
           <h3 className="mb-1 truncate font-semibold text-gray-900 group-hover:text-coral transition">
             {name}
           </h3>
 
-          {/* Location — only render this if we have a location string */}
+          {/* location — only render this if we have a location string */}
           {locationString && (
             <div className="mb-3 flex items-center gap-1 text-sm text-gray-500">
               <MapPin className="h-3 w-3 shrink-0" />
@@ -75,7 +75,7 @@ export default function VenueCard({
             </div>
           )}
 
-          {/* Bottom row: price on the left, guests on the right */}
+          {/* bottom row: price on the left, guests on the right */}
           <div className="flex items-center justify-between">
             <span className="font-semibold text-gray-900">
               ${price}{" "}
@@ -83,7 +83,7 @@ export default function VenueCard({
             </span>
 
             <div className="flex items-center gap-1 text-sm text-gray-500">
-              {/* Max guests */}
+              {/* max guests */}
               <Users className="h-3 w-3" />
               <span>{maxGuests} guests</span>
             </div>

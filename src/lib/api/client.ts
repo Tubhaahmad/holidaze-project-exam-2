@@ -1,5 +1,5 @@
-//this is the base API client for the entire app.
-//all API calls go through the fetcher() function below.
+// this is the base API client for the entire app.
+// all API calls go through the fetcher() function below.
 
 export class ApiError extends Error {
   statusCode: number;
@@ -11,12 +11,12 @@ export class ApiError extends Error {
   }
 }
 
-//read environment variables
+// read environment variables
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const API_KEY = process.env.NEXT_PUBLIC_NOROFF_API_KEY;
 
-//getToken reads the JWT token from localStorage
-//we read it here so every authenticated request gets the token automatically
+// getToken reads the JWT token from localStorage
+// we read it here so every authenticated request gets the token automatically
 function getToken(): string | null {
   if (typeof window === "undefined") return null;
   try {
@@ -29,8 +29,8 @@ function getToken(): string | null {
   }
 }
 
-//requestOptions extends the standard fetch RequestInit options
-//asnd adds an optional params object for query parameters
+// requestOptions extends the standard fetch RequestInit options
+// and adds an optional params object for query parameters
 interface RequestOptions extends RequestInit {
   params?: Record<string, string | boolean>;
 }

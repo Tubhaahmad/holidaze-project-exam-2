@@ -14,27 +14,27 @@ export default function ProfilePage() {
   const { isLoggedIn, user } = useAuth();
   const { data: bookings, isLoading, isError } = useCustomerBookings();
 
-  // Redirect to login if not logged in
+  // redirect to login if not logged in
   useEffect(() => {
     if (!isLoggedIn) {
       router.push("/login");
     }
   }, [isLoggedIn, router]);
 
-  // Don't render anything while redirecting
+  // don't render anything while redirecting
   if (!isLoggedIn || !user) return null;
 
   return (
     <div className="mx-auto w-full max-w-6xl px-6 py-12">
-      {/* Page title */}
+      {/* page title */}
       <h1 className="mb-8 text-3xl font-bold text-gray-900">My Profile</h1>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-        {/*Left column */}
+        {/*left column */}
         <div className="flex flex-col gap-6 lg:col-span-1">
-          {/* Profile card */}
+          {/* profile card */}
           <div className="rounded-xl border border-gray-200 bg-white p-6 text-center">
-            {/* Avatar */}
+            {/* avatar */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={user.avatar?.url || "https://placehold.co/96x96?text=?"}
@@ -50,7 +50,7 @@ export default function ProfilePage() {
             </h2>
             <p className="mb-4 text-sm text-gray-500">{user.email}</p>
 
-            {/* Role badge */}
+            {/* role badge */}
             <span
               className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${
                 user.venueManager
@@ -61,7 +61,7 @@ export default function ProfilePage() {
               {user.venueManager ? "Venue Manager" : "Customer"}
             </span>
 
-            {/* Manager dashboard link */}
+            {/* manager dashboard link */}
             {user.venueManager && (
               <div className="mt-4">
                 <Link href="/dashboard">
@@ -73,10 +73,10 @@ export default function ProfilePage() {
             )}
           </div>
 
-          {/* Avatar update form */}
+          {/* avatar update form */}
           <AvatarUpdateForm />
 
-          {/* Stats card */}
+          {/* stats card */}
           <div className="rounded-xl border border-gray-200 bg-white p-6">
             <h3 className="mb-4 font-semibold text-gray-900">Stats</h3>
             <div className="space-y-3">
@@ -97,13 +97,13 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/*Right column — bookings*/}
+        {/*right column - bookings*/}
         <div className="lg:col-span-2">
           <h2 className="mb-6 text-xl font-bold text-gray-900">
             Upcoming Bookings
           </h2>
 
-          {/* Loading state — show 3 skeleton cards */}
+          {/* loading state - show 3 skeleton cards */}
           {isLoading && (
             <div className="flex flex-col gap-4">
               {[0, 1, 2].map((i) => (
@@ -122,14 +122,14 @@ export default function ProfilePage() {
             </div>
           )}
 
-          {/* Error state */}
+          {/* error state */}
           {isError && (
             <p className="text-gray-500">
               Something went wrong loading your bookings.
             </p>
           )}
 
-          {/* Empty state */}
+          {/* empty state */}
           {!isLoading && !isError && bookings?.length === 0 && (
             <div className="rounded-xl border border-gray-200 bg-white p-16 text-center">
               <p className="mb-4 text-gray-500">
@@ -143,7 +143,7 @@ export default function ProfilePage() {
             </div>
           )}
 
-          {/* Bookings list */}
+          {/* bookings list */}
           {!isLoading && !isError && bookings && bookings.length > 0 && (
             <div className="flex flex-col gap-4">
               {bookings.map((booking) => (
@@ -151,7 +151,7 @@ export default function ProfilePage() {
                   key={booking.id}
                   className="flex flex-col gap-4 rounded-xl border border-gray-200 bg-white p-4 transition hover:shadow-md sm:flex-row"
                 >
-                  {/* Venue thumbnail */}
+                  {/* venue thumbnail */}
                   {booking.venue && (
                     <div className="shrink-0">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -170,9 +170,9 @@ export default function ProfilePage() {
                     </div>
                   )}
 
-                  {/* Booking details */}
+                  {/* <base href="" />ooking details */}
                   <div className="flex-1">
-                    {/* Venue name links to venue detail page */}
+                    {/* venue name links to venue detail page */}
                     {booking.venue && (
                       <Link href={`/venues/${booking.venue.id}`}>
                         <h3 className="mb-2 font-semibold text-gray-900 hover:text-coral transition">

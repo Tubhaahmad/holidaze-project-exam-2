@@ -13,7 +13,7 @@ export default function QueryProvider({
       new QueryClient({
         defaultOptions: {
           queries: {
-            // How long data stays fresh before TanStack Query refetches it
+            // how long data stays fresh before TanStack Query refetches it
             staleTime: 60 * 1000,
           },
         },
