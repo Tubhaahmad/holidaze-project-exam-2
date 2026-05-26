@@ -33,7 +33,7 @@ function VenuesPage() {
   const [search, setSearch] = useState(searchParams.get("search") || "");
 
   // debouncedSearch waits 300ms after the user stops typing before updating
-  // This prevents a new API request on every single keystroke
+  // this prevents a new API request on every single keystroke
   const [debouncedSearch] = useDebounce(search, 300);
 
   // activeFilters tracks which amenity filters are active
@@ -58,7 +58,7 @@ function VenuesPage() {
   const venues = data?.venues ?? [];
   const pageCount = data?.pageCount ?? 1;
 
-  // Toggle a filter on or off
+  // toggle a filter on or off
   function toggleFilter(key: string) {
     setPage(1);
     setActiveFilters((prev) =>
@@ -66,14 +66,14 @@ function VenuesPage() {
     );
   }
 
-  // Filter and sort venues client-side
+  // filter and sort venues client-side
   // useMemo recalculates only when venues, activeFilters or sort changes
   const filteredVenues = useMemo(() => {
     if (!venues) return [];
 
     let result = [...venues];
 
-    // Apply amenity filters — only show venues that have ALL selected amenities
+    // apply amenity filters, only show venues that have ALL selected amenities
     if (activeFilters.length > 0) {
       result = result.filter((venue) =>
         activeFilters.every(
@@ -82,7 +82,7 @@ function VenuesPage() {
       );
     }
 
-    // Apply sort
+    // apply sort
     if (sort === "newest") {
       result.sort(
         (a, b) => new Date(b.created).getTime() - new Date(a.created).getTime(),
@@ -110,7 +110,7 @@ function VenuesPage() {
 
   return (
     <div className="mx-auto w-full max-w-7xl px-6 py-12">
-      {/* Page header */}
+      {/* page header */}
       <div className="mb-8">
         <h1 className="mb-1 text-3xl font-bold text-gray-900">
           {search ? `Results for "${search}"` : "All Venues"}
@@ -123,9 +123,9 @@ function VenuesPage() {
         )}
       </div>
 
-      {/* Search and sort row */}
+      {/* search and sort row */}
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-        {/* Search input */}
+        {/* search input */}
         <div className="relative flex-1 max-w-lg">
           <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
           <input
@@ -140,7 +140,7 @@ function VenuesPage() {
           />
         </div>
 
-        {/* Sort dropdown */}
+        {/* sort dropdown */}
         <select
           value={sort}
           onChange={(e) => setSort(e.target.value)}
@@ -154,7 +154,7 @@ function VenuesPage() {
         </select>
       </div>
 
-      {/* Filter chips */}
+      {/* filter chips */}
       <div className="mb-8 flex flex-wrap gap-2">
         {filters.map((filter) => {
           const Icon = filter.icon;
@@ -175,7 +175,7 @@ function VenuesPage() {
           );
         })}
 
-        {/* Clear filters button, only shown when filters are active */}
+        {/* clear filters button, only shown when filters are active */}
         {activeFilters.length > 0 && (
           <button
             onClick={() => setActiveFilters([])}
@@ -186,11 +186,11 @@ function VenuesPage() {
         )}
       </div>
 
-      {/* Loading state */}
+      {/* loading state */}
       {isLoading && (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {/* An array of 8 numbers, looping over them */}
-          {/* For each number rendering one skeleton card */}
+          {/* an array of 8 numbers, looping over them */}
+          {/* for each number rendering one skeleton card */}
           {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
             <div
               key={i}
@@ -207,7 +207,7 @@ function VenuesPage() {
         </div>
       )}
 
-      {/* Error state */}
+      {/* error state */}
       {isError && (
         <div className="py-20 text-center">
           <p className="text-gray-500">
@@ -216,7 +216,7 @@ function VenuesPage() {
         </div>
       )}
 
-      {/* Empty state */}
+      {/* empty state */}
       {!isLoading && !isError && paginatedFilteredVenues.length === 0 && (
         <div className="py-20 text-center">
           <p className="mb-4 text-gray-500">
@@ -236,7 +236,7 @@ function VenuesPage() {
         </div>
       )}
 
-      {/* Venue grid */}
+      {/* venue grid */}
       {!isLoading && !isError && paginatedFilteredVenues.length > 0 && (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {paginatedFilteredVenues.map((venue) => (

@@ -19,14 +19,14 @@ export default function VenueBookingsPage() {
   const { id } = useParams() as { id: string };
   const { isLoggedIn, user } = useAuth();
 
-  //redirect non-managers away
+  // redirect non-managers away
   useEffect(() => {
     if (!isLoggedIn || !user?.venueManager) {
       router.push("/dashboard");
     }
   }, [isLoggedIn, user, router]);
 
-  //then fetch the venue with all its bookings and customer info
+  // then fetch the venue with all its bookings and customer info
   const {
     data: venue,
     isLoading,
@@ -39,7 +39,7 @@ export default function VenueBookingsPage() {
 
   if (!isLoggedIn || !user?.venueManager) return null;
 
-  //loading state
+  // loading state
   if (isLoading) {
     return (
       <div className="mx-auto w-full max-w-4xl px-6 py-12">
@@ -54,7 +54,7 @@ export default function VenueBookingsPage() {
     );
   }
 
-  //error state
+  // error state
   if (isError || !venue) {
     return (
       <div className="mx-auto w-full max-w-4xl px-6 py-12 text-center">
@@ -65,12 +65,12 @@ export default function VenueBookingsPage() {
 
   const bookings = venue.bookings ?? [];
 
-  // Sort bookings by dateFrom — nearest check-in first
+  // sort bookings by dateFrom — nearest check-in first
   const sortedBookings = [...bookings].sort(
     (a, b) => new Date(a.dateFrom).getTime() - new Date(b.dateFrom).getTime(),
   );
 
-  // Calculate stats
+  // calculate stats
   const totalRevenue = sortedBookings.reduce((sum, booking) => {
     const nights = Math.round(
       (new Date(booking.dateTo).getTime() -
@@ -85,7 +85,7 @@ export default function VenueBookingsPage() {
     0,
   );
 
-  // Helper function to get booking status
+  // helper function to get booking status
   function getBookingStatus(dateFrom: string, dateTo: string) {
     const now = new Date();
     const start = new Date(dateFrom);
@@ -96,7 +96,7 @@ export default function VenueBookingsPage() {
     return "active";
   }
 
-  // Helper to calculate nights between two dates
+  // helper to calculate nights between two dates
   function getNights(dateFrom: string, dateTo: string) {
     return Math.round(
       (new Date(dateTo).getTime() - new Date(dateFrom).getTime()) /
@@ -126,7 +126,7 @@ export default function VenueBookingsPage() {
           </div>
         </div>
 
-        {/* action buttons — below header on all screen sizes */}
+        {/* action buttons, below header on all screen sizes */}
         <div className="mt-4 flex gap-2">
           <Link href={`/dashboard/venues/${id}/edit`}>
             <Button variant="outline" size="sm">
@@ -141,7 +141,7 @@ export default function VenueBookingsPage() {
         </div>
       </div>
 
-      {/* Stats row */}
+      {/* stats row */}
       <div className="mb-8 grid grid-cols-3 gap-4">
         <div className="rounded-xl border border-gray-200 p-4 text-center">
           <p className="text-2xl font-bold text-gray-900">
@@ -162,7 +162,7 @@ export default function VenueBookingsPage() {
         </div>
       </div>
 
-      {/* Empty state */}
+      {/* empty state */}
       {sortedBookings.length === 0 && (
         <div className="rounded-xl border border-gray-200 p-16 text-center">
           <p className="mb-2 text-lg font-semibold text-gray-900">
@@ -174,7 +174,7 @@ export default function VenueBookingsPage() {
         </div>
       )}
 
-      {/* Bookings list */}
+      {/* bookings list */}
       {sortedBookings.length > 0 && (
         <div className="flex flex-col gap-4">
           {sortedBookings.map((booking) => {
@@ -212,7 +212,7 @@ export default function VenueBookingsPage() {
                     </div>
                   </div>
 
-                  {/* Status badge */}
+                  {/* status badge */}
                   <span
                     className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${
                       status === "upcoming"
@@ -230,7 +230,7 @@ export default function VenueBookingsPage() {
                   </span>
                 </div>
 
-                {/* Booking details */}
+                {/* booking details */}
                 <div className="mt-3 flex flex-wrap gap-4 text-sm text-gray-500">
                   <div className="flex items-center gap-1">
                     <Calendar className="h-4 w-4" />

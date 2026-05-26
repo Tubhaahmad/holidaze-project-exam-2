@@ -6,7 +6,7 @@ import QueryProvider from "@/components/providers/QueryProvider";
 import { Toaster } from "@/components/ui/sonner";
 import Footer from "@/components/layout/Footer";
 
-// Inter is a clean modern sans-serif font used by many top products
+// inter is a clean modern sans-serif font used by many top products
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",

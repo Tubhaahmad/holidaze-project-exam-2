@@ -22,6 +22,7 @@ export default function HomePage() {
 
   // fetch venues for the featured section
   const { data, isLoading } = useVenues();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const allVenues = data?.venues ?? [];
 
   // filter venues based on active category
@@ -61,12 +62,12 @@ export default function HomePage() {
         <div className="relative z-10 flex h-full min-h-screen flex-col items-center justify-between px-6 pt-40 pb-0 md:px-20">
           {/* headline and search */}
           <div className="flex flex-col items-center text-center max-w-3xl">
-            <h1 className="mb-4 text-4xl font-bold leading-tight text-white md:text-7xl">
+            <h1 className="mb-4 text-3xl font-bold leading-tight text-white md:text-7xl">
               Find Your Next
               <br />
               Destination
             </h1>
-            <p className="mb-8 text-lg text-white/70 max-w-md">
+            <p className="mb-8 text-base md:text-lg text-white/70 max-w-md">
               Discover unique venues and book your next adventure with Holidaze
             </p>
 
@@ -98,7 +99,7 @@ export default function HomePage() {
             <div className="mb-4">
               <div className="mb-3 flex items-start justify-between gap-4">
                 <div>
-                  <h2 className="text-xl font-bold text-gray-900 md:text-2xl">
+                  <h2 className="text-lg font-bold text-gray-900 md:text-2xl">
                     Great stays for your next trip
                   </h2>
                   <p className="mt-1 text-sm text-gray-500">

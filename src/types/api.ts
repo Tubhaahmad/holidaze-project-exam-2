@@ -1,10 +1,10 @@
-//image object used across venues, profiles, and banners//
+// image object used across venues, profiles, and banners//
 export interface MediaObject {
   url: string;
   alt: string;
 }
 
-//pagination info returned on all list endpoints (venues, bookings, profiles)//
+// pagination info returned on all list endpoints (venues, bookings, profiles)//
 export interface ApiMeta {
   isFirstPage: boolean;
   isLastPage: boolean;
@@ -15,8 +15,8 @@ export interface ApiMeta {
   totalCount: number;
 }
 
-//generic wrapper for every API response. Data is the actual content, meta is pagination
-//usage: ApiResponse<Venue>, ApiResponse<Booking[]>, ApiResponse<Profile> etc//
+// generic wrapper for every API response. Data is the actual content, meta is pagination
+// usage: ApiResponse<Venue>, ApiResponse<Booking[]>, ApiResponse<Profile> etc//
 export interface ApiResponse<T> {
   data: T;
   meta: ApiMeta | Record<string, never>;
@@ -24,8 +24,8 @@ export interface ApiResponse<T> {
 
 //PROFILE//
 
-//A registered user — either a customer or a venue manager//
-//venues and bookings are optional because they only appear when _venues=true or _bookings=true is passed//
+// a registered user — either a customer or a venue manager//
+// venues and bookings are optional because they only appear when _venues=true or _bookings=true is passed//
 export interface Profile {
   name: string;
   email: string;
@@ -43,7 +43,7 @@ export interface Profile {
 
 //VENUE//
 
-//the amenities a venue can offer - all booleans, all default to false
+// the amenities a venue can offer - all booleans, all default to false
 export interface VenueMeta {
   wifi: boolean;
   parking: boolean;
@@ -51,7 +51,7 @@ export interface VenueMeta {
   pets: boolean;
 }
 
-//Physical location of a venue, all fields are optional from the API side
+// physical location of a venue, all fields are optional from the API side
 export interface VenueLocation {
   address: string | null;
   city: string | null;
@@ -62,8 +62,8 @@ export interface VenueLocation {
   lng: number;
 }
 
-// A venue listing — the core model of the app
-//Owner only appears when _owner=true is passed, bookings only when _bookings=true is passed
+// a venue listing — the core model of the app
+// owner only appears when _owner=true is passed, bookings only when _bookings=true is passed
 export interface Venue {
   id: string;
   name: string;
@@ -82,7 +82,7 @@ export interface Venue {
 
 //BOOKING//
 
-//a booking made by a customer at a venue
+// a booking made by a customer at a venue
 // venue only appears when _venue=true is passed, customer only when _customer=true is passed
 export interface Booking {
   id: string;
@@ -97,8 +97,8 @@ export interface Booking {
 
 //AUTH//
 
-//the  response shape when a user registers or logs in
-//accessToken is the JWT used in the Authorization header for all authenticated requests
+// the response shape when a user registers or logs in
+// accessToken is the JWT used in the Authorization header for all authenticated requests
 export interface AuthResponse {
   name: string;
   email: string;

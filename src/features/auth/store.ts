@@ -1,9 +1,9 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-//TYPES
+// types
 
-//PROFILE - logged in user
+// profile - logged in user
 export interface User {
   name: string;
   email: string;
@@ -19,27 +19,27 @@ export interface User {
   venueManager: boolean;
 }
 
-//what the auth store holds
+// what the auth store holds
 interface AuthState {
   // to authenticate requests
   accessToken: string | null;
 
-  //  The logged-in user's profile data
+  // the logged-in user's profile data
   user: User | null;
 
   // a boolean to check if the user is logged in
   isLoggedIn: boolean;
 
-  //ACTIONS - functions that will update the store
+  // actions - functions that will update the store
 
-  //saves the token and user profile to the store after login/register
+  // saves the token and user profile to the store after login/register
   login: (token: string, user: User) => void;
 
-  //clears the token and user profile from store and localStorage
+  // clears the token and user profile from store and localStorage
   logout: () => void;
 
-  //Partial<User> - we can pass in just the fields we want to change/update instead of the entire user object
-  // Called when the user updates their profile (e.g. avatar)
+  // Partial<User> - we can pass in just the fields we want to change/update instead of the entire user object
+  // called when the user updates their profile (e.g. avatar)
   updateUser: (partial: Partial<User>) => void;
 }
 
@@ -51,7 +51,7 @@ const useAuthStore = create<AuthState>()(
       user: null,
       isLoggedIn: false,
 
-      //logging in saves the token and user to the store
+      // logging in saves the token and user to the store
       login: (token, user) =>
         set({
           accessToken: token,
@@ -59,8 +59,8 @@ const useAuthStore = create<AuthState>()(
           isLoggedIn: true,
         }),
 
-      //clears everything from the store
-      //persist middlewear will also clear it from localStorage
+      // clears everything from the store
+      // persist middlewear will also clear it from localStorage
       logout: () =>
         set({
           accessToken: null,
@@ -74,13 +74,13 @@ const useAuthStore = create<AuthState>()(
         })),
     }),
     {
-      //this is the key used to save the store in localStorage
+      // this is the key used to save the store in localStorage
       name: "holidaze-auth",
     },
   ),
 );
 
-//HOOK - what components call to read from the store
+// hook - what components call to read from the store
 export function useAuth() {
   return useAuthStore();
 }
