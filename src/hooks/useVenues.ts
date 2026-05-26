@@ -1,9 +1,9 @@
-//custom hook that fetches all venues from the Noroff API.
-//uses the typed API client from src/lib/api/venue.ts
-//instead of fetching directly, this keeps all API logic in one place
+// custom hook that fetches all venues from the Noroff API.
+// uses the typed API client from src/lib/api/venue.ts
+// instead of fetching directly, this keeps all API logic in one place
 
-//this uses TanStack Query — no useEffect needed.
-//the actual API call lives in src/lib/api/venue.ts — this hook
+// this uses TanStack Query — no useEffect needed.
+// the actual API call lives in src/lib/api/venue.ts — this hook
 // just connects TanStack Query to that function.
 
 import { useQuery } from "@tanstack/react-query";

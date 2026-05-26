@@ -1,8 +1,8 @@
 import { fetcher } from "./client";
 import { ApiResponse, Booking } from "@/types/api";
 
-//CREATE A BOOKING
-//called when a customer clicks Book Now on a venue detail page
+// CREATE A BOOKING
+// called when a customer clicks Book Now on a venue detail page
 export interface CreateBookingData {
   dateFrom: string;
   dateTo: string;
@@ -19,9 +19,9 @@ export async function createBooking(data: CreateBookingData): Promise<Booking> {
   return response.data;
 }
 
-//Get bookings by profile
-//used by the profile page to show a customer's upcoming bookings
-//the profile name is the user's username from the Zustand store
+// get bookings by profile
+// used by the profile page to show a customer's upcoming bookings
+// the profile name is the user's username from the Zustand store
 export async function getBookingsByProfile(
   profileName: string,
 ): Promise<Booking[]> {

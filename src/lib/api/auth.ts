@@ -3,7 +3,7 @@ import { User } from "@/features/auth/store";
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const API_KEY = process.env.NEXT_PUBLIC_NOROFF_API_KEY;
 
-//the data we send to the API when registering
+// the data we send to the API when registering
 export interface RegisterData {
   name: string;
   email: string;
@@ -11,14 +11,14 @@ export interface RegisterData {
   venueManager: boolean;
 }
 
-//the data we send to the API when logging in
+// the data we send to the API when logging in
 export interface LoginData {
   email: string;
   password: string;
 }
 
-//the shape of ther response we get back from login and register
-//this includes the user profile and the accessToken
+// the shape of ther response we get back from login and register
+// this includes the user profile and the accessToken
 export interface AuthResponse {
   accessToken: string;
   name: string;
@@ -35,7 +35,7 @@ export interface AuthResponse {
   venueManager: boolean;
 }
 
-//REGISTER
+// register
 
 export async function register(data: RegisterData): Promise<AuthResponse> {
   const response = await fetch(`${BASE_URL}/auth/register`, {
@@ -56,7 +56,7 @@ export async function register(data: RegisterData): Promise<AuthResponse> {
   return json.data;
 }
 
-//LOGIN
+// login
 export async function login(data: LoginData): Promise<AuthResponse> {
   const response = await fetch(`${BASE_URL}/auth/login?_holidaze=true`, {
     method: "POST",

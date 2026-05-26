@@ -174,7 +174,7 @@ export default function EditVenuePage() {
     },
   });
 
-  //ask for confirmation before deleting
+  // ask for confirmation before deleting
   function handleDelete() {
     if (window.confirm("Are you sure you want to delete this venue?")) {
       submitDelete();
@@ -200,196 +200,223 @@ export default function EditVenuePage() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-2xl px-6 py-12">
-      <div className="mb-8">
-        <h1 className="mb-1 text-3xl font-bold text-gray-900">Edit venue</h1>
-        <p className="mb-4 text-gray-500">{venue.name}</p>
-      </div>
+    <div className="min-h-screen py-12">
+      <div className="mx-auto w-full max-w-2xl px-6">
+        <div className="mb-8">
+          <p className="mb-1 text-sm font-medium text-coral">
+            Manager Dashboard
+          </p>
+          <h1 className="mb-1 text-3xl font-bold text-gray-900">Edit venue</h1>
+          <p className="text-gray-500">{venue.name}</p>
+        </div>
 
-      <form
-        onSubmit={handleSubmit((data) => submitUpdate(data))}
-        className="flex flex-col gap-6"
-      >
-        <div className="flex flex-col gap-4">
-          <h2 className="text-lg font-semibold text-gray-900">Basic info</h2>
+        <form
+          onSubmit={handleSubmit((data) => submitUpdate(data))}
+          className="flex flex-col gap-6"
+        >
+          {/* basic info */}
+          <div
+            className="rounded-2xl bg-white p-6 flex flex-col gap-4"
+            style={{ boxShadow: "0 0 30px 0 rgba(0,0,0,0.08)" }}
+          >
+            <h2 className="text-lg font-semibold text-gray-900">Basic info</h2>
 
-          <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">
-              Name
-            </label>
-            <input
-              {...register("name")}
-              className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-gray-900"
-            />
-            {errors.name && (
-              <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
-            )}
-          </div>
-
-          <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">
-              Description
-            </label>
-            <textarea
-              {...register("description")}
-              rows={4}
-              className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-gray-900"
-            />
-            {errors.description && (
-              <p className="mt-1 text-sm text-red-500">
-                {errors.description.message}
-              </p>
-            )}
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="mb-1 block text-sm font-medium text-gray-700">
-                Price per night ($)
+                Name
               </label>
               <input
-                {...register("price", { valueAsNumber: true })}
-                type="number"
-                min={1}
-                className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-gray-900"
+                {...register("name")}
+                className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-coral"
               />
-              {errors.price && (
+              {errors.name && (
                 <p className="mt-1 text-sm text-red-500">
-                  {errors.price.message}
+                  {errors.name.message}
                 </p>
               )}
             </div>
+
             <div>
               <label className="mb-1 block text-sm font-medium text-gray-700">
-                Max guests
+                Description
               </label>
-              <input
-                {...register("maxGuests", { valueAsNumber: true })}
-                type="number"
-                min={1}
-                className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-gray-900"
+              <textarea
+                {...register("description")}
+                rows={4}
+                className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-coral"
               />
-              {errors.maxGuests && (
+              {errors.description && (
                 <p className="mt-1 text-sm text-red-500">
-                  {errors.maxGuests.message}
+                  {errors.description.message}
                 </p>
               )}
             </div>
-          </div>
-        </div>
 
-        <div className="flex flex-col gap-4">
-          <h2 className="text-lg font-semibold text-gray-900">Images</h2>
-          {[0, 1, 2, 3, 4, 5, 6, 7].map((index) => (
-            <div key={index} className="flex items-center gap-3">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={
-                  imageValues?.[index] || "https://placehold.co/48x48?text=?"
-                }
-                alt={`Preview ${index + 1}`}
-                className="h-12 w-12 shrink-0 rounded-lg object-cover"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = "https://placehold.co/48x48?text=?";
-                }}
-              />
-              <input
-                {...register(`images.${index}`)}
-                placeholder={`Image URL ${index + 1}`}
-                className="flex-1 rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-gray-900"
-              />
-            </div>
-          ))}
-        </div>
-
-        <div className="flex flex-col gap-4">
-          <h2 className="text-lg font-semibold text-gray-900">Amenities</h2>
-          <div className="grid grid-cols-2 gap-3">
-            {[
-              { name: "wifi", label: "WiFi" },
-              { name: "parking", label: "Parking" },
-              { name: "breakfast", label: "Breakfast" },
-              { name: "pets", label: "Pets allowed" },
-            ].map((amenity) => (
-              <label
-                key={amenity.name}
-                className="flex cursor-pointer items-center gap-2"
-              >
-                <input
-                  {...register(
-                    amenity.name as "wifi" | "parking" | "breakfast" | "pets",
-                  )}
-                  type="checkbox"
-                  className="h-4 w-4 rounded border-gray-300"
-                />
-                <span className="text-sm text-gray-700">{amenity.label}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-4">
-          <h2 className="text-lg font-semibold text-gray-900">
-            Location{" "}
-            <span className="text-sm font-normal text-gray-500">
-              (optional)
-            </span>
-          </h2>
-          <div className="grid grid-cols-2 gap-4">
-            {[
-              { name: "address", label: "Address" },
-              { name: "city", label: "City" },
-              { name: "country", label: "Country" },
-              { name: "continent", label: "Continent" },
-            ].map((field) => (
-              <div key={field.name}>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
                 <label className="mb-1 block text-sm font-medium text-gray-700">
-                  {field.label}
+                  Price per night ($)
                 </label>
                 <input
-                  {...register(
-                    field.name as "address" | "city" | "country" | "continent",
-                  )}
-                  className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-gray-900"
+                  {...register("price", { valueAsNumber: true })}
+                  type="number"
+                  min={1}
+                  className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-coral"
+                />
+                {errors.price && (
+                  <p className="mt-1 text-sm text-red-500">
+                    {errors.price.message}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label className="mb-1 block text-sm font-medium text-gray-700">
+                  Max guests
+                </label>
+                <input
+                  {...register("maxGuests", { valueAsNumber: true })}
+                  type="number"
+                  min={1}
+                  className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-coral"
+                />
+                {errors.maxGuests && (
+                  <p className="mt-1 text-sm text-red-500">
+                    {errors.maxGuests.message}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* images */}
+          <div
+            className="rounded-2xl bg-white p-6 flex flex-col gap-4"
+            style={{ boxShadow: "0 0 30px 0 rgba(0,0,0,0.08)" }}
+          >
+            <h2 className="text-lg font-semibold text-gray-900">Images</h2>
+            {[0, 1, 2, 3, 4, 5, 6, 7].map((index) => (
+              <div key={index} className="flex items-center gap-3">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={
+                    imageValues?.[index] || "https://placehold.co/48x48?text=?"
+                  }
+                  alt={`Preview ${index + 1}`}
+                  className="h-12 w-12 shrink-0 rounded-lg object-cover"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = "https://placehold.co/48x48?text=?";
+                  }}
+                />
+                <input
+                  {...register(`images.${index}`)}
+                  placeholder={`Image URL ${index + 1}`}
+                  className="flex-1 rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-coral"
                 />
               </div>
             ))}
           </div>
-        </div>
 
-        {/* action buttons */}
-        <div className="flex gap-3">
-          <Button
-            type="button"
-            variant="outline"
-            className="flex-1"
-            onClick={() => router.push("/dashboard")}
+          {/* amenities */}
+          <div
+            className="rounded-2xl bg-white p-6 flex flex-col gap-4"
+            style={{ boxShadow: "0 0 30px 0 rgba(0,0,0,0.08)" }}
           >
-            Cancel
-          </Button>
-          <Button
-            type="submit"
-            className="flex-1 bg-coral hover:bg-coral-hover text-white"
-            disabled={isUpdating}
-          >
-            {isUpdating ? "Saving..." : "Save changes"}
-          </Button>
-        </div>
+            <h2 className="text-lg font-semibold text-gray-900">Amenities</h2>
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { name: "wifi", label: "WiFi" },
+                { name: "parking", label: "Parking" },
+                { name: "breakfast", label: "Breakfast" },
+                { name: "pets", label: "Pets allowed" },
+              ].map((amenity) => (
+                <label
+                  key={amenity.name}
+                  className="flex cursor-pointer items-center gap-2"
+                >
+                  <input
+                    {...register(
+                      amenity.name as "wifi" | "parking" | "breakfast" | "pets",
+                    )}
+                    type="checkbox"
+                    className="h-4 w-4 rounded border-gray-300"
+                  />
+                  <span className="text-sm text-gray-700">{amenity.label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
 
-        {/* delete venue — at the bottom to avoid accidental clicks */}
-        <div className="border-t border-gray-100 pt-4">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={handleDelete}
-            disabled={isDeleting}
-            className="w-full border-red-200 text-red-500 hover:bg-red-50 hover:text-red-600"
+          {/* location */}
+          <div
+            className="rounded-2xl bg-white p-6 flex flex-col gap-4"
+            style={{ boxShadow: "0 0 30px 0 rgba(0,0,0,0.08)" }}
           >
-            {isDeleting ? "Deleting..." : "Delete venue"}
-          </Button>
-        </div>
-      </form>
+            <h2 className="text-lg font-semibold text-gray-900">
+              Location{" "}
+              <span className="text-sm font-normal text-gray-500">
+                (optional)
+              </span>
+            </h2>
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { name: "address", label: "Address" },
+                { name: "city", label: "City" },
+                { name: "country", label: "Country" },
+                { name: "continent", label: "Continent" },
+              ].map((field) => (
+                <div key={field.name}>
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
+                    {field.label}
+                  </label>
+                  <input
+                    {...register(
+                      field.name as
+                        | "address"
+                        | "city"
+                        | "country"
+                        | "continent",
+                    )}
+                    className="w-full rounded-lg border border-gray-200 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-coral"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* action buttons */}
+          <div className="flex gap-3">
+            <Button
+              type="button"
+              variant="outline"
+              className="flex-1"
+              onClick={() => router.push("/dashboard")}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              className="flex-1 bg-coral hover:bg-coral-hover text-white"
+              disabled={isUpdating}
+            >
+              {isUpdating ? "Saving..." : "Save changes"}
+            </Button>
+          </div>
+
+          {/* delete venue, at the bottom to avoid accidental clicks */}
+          <div className="border-t border-gray-100 pt-4">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleDelete}
+              disabled={isDeleting}
+              className="w-full border-red-200 text-red-500 hover:bg-red-50 hover:text-red-600"
+            >
+              {isDeleting ? "Deleting..." : "Delete venue"}
+            </Button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

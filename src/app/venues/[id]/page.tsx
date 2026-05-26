@@ -22,14 +22,14 @@ export default function VenueDetailPage() {
   const { data: venue, isLoading, isError } = useVenue(id);
   const { isLoggedIn, user } = useAuth();
 
-  //Update the page title dynamically when venue data loads
+  // update the page title dynamically when venue data loads
   useEffect(() => {
     if (venue) {
       document.title = `${venue.name} | Holidaze`;
     }
   }, [venue]);
 
-  //loading state
+  // loading state
   if (isLoading) {
     return (
       <div className="mx-auto w-full max-w-4xl px-6 py-12">
@@ -41,7 +41,7 @@ export default function VenueDetailPage() {
     );
   }
 
-  //error state
+  // error state
 
   if (isError || !venue) {
     return (
@@ -71,7 +71,7 @@ export default function VenueDetailPage() {
   const isOwner = user?.name === venue.owner?.name;
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-12 lg:max-w-5xl lg:px-6">
-      {/* Image carousel */}
+      {/* image carousel */}
       {venue.media && venue.media.length > 0 ? (
         <Carousel
           className="relative mb-8 w-full"
@@ -104,14 +104,14 @@ export default function VenueDetailPage() {
             ))}
           </CarouselContent>
 
-          {/* Dot indicators */}
+          {/* dot indicators */}
           <div className="mt-3 flex justify-center gap-2">
             {venue.media.map((_, index) => (
               <div key={index} className="h-2 w-2 rounded-full bg-gray-300" />
             ))}
           </div>
 
-          {/* Only show arrows on larger screens */}
+          {/* only show arrows on larger screens */}
           {venue.media.length > 1 && (
             <>
               <CarouselPrevious className="left-3" />
@@ -120,13 +120,13 @@ export default function VenueDetailPage() {
           )}
         </Carousel>
       ) : (
-        // No images fallback
+        // no images fallback
         <div className="mb-8 flex h-96 w-full items-center justify-center rounded-2xl bg-gray-100">
           <p className="text-gray-500">No images available</p>
         </div>
       )}
 
-      {/* Venue header */}
+      {/* venue header */}
       <div className="mb-8">
         <h1 className="mb-3 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
           {venue.name}
@@ -152,9 +152,9 @@ export default function VenueDetailPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
-        {/* Left column*/}
+        {/* left column*/}
         <div className="lg:col-span-2">
-          {/* About */}
+          {/* about */}
           <div className="mb-8 rounded-xl border border-gray-200 bg-white p-6">
             <h2 className="mb-3 text-xl font-bold text-gray-900">
               About this venue
@@ -162,11 +162,11 @@ export default function VenueDetailPage() {
             <p className="leading-relaxed text-gray-500">{venue.description}</p>
           </div>
 
-          {/* Amenities */}
+          {/* amenities */}
           <div className="mb-8 rounded-xl border border-gray-200 bg-white p-6">
             <h2 className="mb-4 text-xl font-bold text-gray-900">Amenities</h2>
             <div className="grid grid-cols-2 gap-4">
-              {/* Each amenity only shows if it's available */}
+              {/* each amenity only shows if it's available */}
               {venue.meta.wifi && (
                 <div className="flex items-center gap-3 rounded-lg bg-gray-50 px-4 py-3 text-gray-700">
                   <Wifi className="h-5 w-5 text-coral" />
@@ -191,7 +191,7 @@ export default function VenueDetailPage() {
                   <span className="text-sm font-medium">Pets allowed</span>
                 </div>
               )}
-              {/* Show message if no amenities are available */}
+              {/* show message if no amenities are available */}
               {!venue.meta.wifi &&
                 !venue.meta.parking &&
                 !venue.meta.breakfast &&
@@ -201,7 +201,7 @@ export default function VenueDetailPage() {
             </div>
           </div>
 
-          {/* Hosted by */}
+          {/* hosted by */}
           {venue.owner && (
             <div className="rounded-xl border border-gray-200 bg-white p-6">
               <h2 className="mb-4 text-xl font-bold text-gray-900">
@@ -232,10 +232,10 @@ export default function VenueDetailPage() {
           )}
         </div>
 
-        {/* Right column — booking card */}
+        {/* right column - booking card */}
         <div className="lg:col-span-1">
           <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm lg:sticky lg:top-24 lg:p-6">
-            {/* Price */}
+            {/* price */}
             <div className="mb-6 border-b border-gray-100 pb-4">
               <span className="text-3xl font-bold text-gray-900">
                 ${venue.price}
@@ -264,7 +264,7 @@ export default function VenueDetailPage() {
               </div>
             )}
 
-            {/* Show message if owner */}
+            {/* show message if owner */}
             {isLoggedIn && isOwner && (
               <p className="mt-4 text-center text-sm text-gray-500">
                 You cannot book your own venue

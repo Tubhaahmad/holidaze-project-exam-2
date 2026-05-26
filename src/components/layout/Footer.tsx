@@ -19,7 +19,7 @@ export default function Footer() {
       {(!isLoggedIn || (isLoggedIn && !user?.venueManager)) && (
         <>
           {/* stats section */}
-          ...
+
           {/* cta section */}
           <section className="bg-gray-900 py-20">
             <div className="mx-auto w-full max-w-7xl px-6 flex flex-col md:flex-row items-center justify-between gap-8">
