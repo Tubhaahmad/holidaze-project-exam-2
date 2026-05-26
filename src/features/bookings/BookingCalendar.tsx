@@ -155,7 +155,7 @@ export default function BookingCalendar({
   return (
     <div className="w-full">
       {/* calendar */}
-      <div className="rounded-lg border border-gray-200">
+      <div className="overflow-hidden rounded-lg border border-gray-200">
         <Calendar
           mode="single"
           selected={checkIn}
