@@ -6,7 +6,7 @@ Holidaze is a modern accommodation booking platform built as a front-end exam pr
 
 **Live:** [holidaze-project-exam-2-4b6e.vercel.app](https://holidaze-project-exam-2-4b6e.vercel.app)
 
-**Course:** Front-End Development Year 2 — Noroff
+**Course:** Front-End Development Year 2  Noroff
 
 ---
 
